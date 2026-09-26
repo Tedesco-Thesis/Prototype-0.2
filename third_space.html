@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THIRD SPACE :: a home on the web</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===================== ERA TIMELINE ===================== -->
+<div id="eraBar">
+  <span class="eraLbl">the web, over time:</span>
+  <button class="era-btn active" data-era="1996" onclick="setEra('1996')">1996</button>
+  <button class="era-btn" data-era="2004" onclick="setEra('2004')">2004</button>
+  <button class="era-btn" data-era="2010" onclick="setEra('2010')">2010</button>
+  <button class="era-btn" data-era="2016" onclick="setEra('2016')">2016</button>
+  <button class="era-btn" data-era="2024" onclick="setEra('2024')">2024</button>
+  <span id="eraLabel">the early web (1996)</span>
+</div>
+<div id="eraNote">no cookie banners, because there was nothing to disclose — sites rarely tracked you. but almost nothing was moderated either: anyone could publish anything, for better and worse.</div>
+
+<div id="popupLayer"></div>
+
+<div id="desktop"></div>
+
+<div id="taskbar">
+  <button class="btn-95" id="menubtn" onclick="toggleStart()">☰ home</button>
+  <div id="openTabs"></div>
+  <div id="clock">00:00</div>
+</div>
+
+<div id="startMenu">
+  <button onclick="openWindow('win-home'); toggleStart(false)">🏠 welcome.htm</button>
+  <hr>
+  <button onclick="openWindow('win-data'); toggleStart(false)">🗃 the data room</button>
+  <button onclick="openWindow('win-mail'); toggleStart(false)">✉ the correspondence room</button>
+  <button onclick="openWindow('win-gallery'); toggleStart(false)">🖌 the signed-work room</button>
+  <button onclick="openWindow('win-receipt'); toggleStart(false)">🧾 your receipt</button>
+  <hr>
+  <button onclick="openWindow('win-personal'); toggleStart(false)">🧑 your place</button>
+  <button onclick="openWindow('win-maze'); toggleStart(false)">🔍 find it (the unoptimized web)</button>
+  <button onclick="openWindow('win-whoknows'); toggleStart(false)">🗣 who knows? (human search)</button>
+  <button onclick="openWindow('win-machine'); toggleStart(false)">🤖 the machine between us</button>
+  <button onclick="openWindow('win-social'); toggleStart(false)">🕸 our data</button>
+  <hr>
+  <button onclick="openWindow('win-about'); toggleStart(false)">? about this project</button>
+</div>
+
+<!-- ===================== HOME WINDOW ===================== -->
+<div class="window open" id="win-home" style="width:420px; top:40px; left:40px; z-index:10;">
+  <div class="titlebar" onpointerdown="startDrag(event,'win-home')">
+    <span class="ttl">welcome.htm — my home</span>
+    <div class="winbtns"><button onclick="minimizeWindow('win-home')">_</button><button onclick="closeWindow('win-home')">×</button></div>
+  </div>
+  <div class="winbody">
+    <h2 class="roomtitle">hi. you found this place.</h2>
+    <p style="font-size:11px; color:#000080; font-style:italic; margin-bottom:6px;">thesis: as digital environments optimize interaction for efficiency, prediction, and monetization, integral elements of human connection, expression, and authorship get removed, concealed, or flattened — because optimization has become one of the only values it's measured against.</p>
+    <p>this is one place now, not six separate pages. every room below tests a different piece of that thesis. the <b>era bar at the top</b> moves the whole interface through the internet's history — watch what each room does, and doesn't do, as you drag it forward.</p>
+    <p style="text-align:center;"><span class="counter">you are visitor # 004,812</span></p>
+    <hr class="dots">
+    <p><b>your trace so far</b> — updates as you use the other rooms:</p>
+    <div id="traceBox" class="trace-box"><div class="trace-line">nothing yet — every room here asks for something before it gives something back.</div></div>
+    <hr class="dots">
+    <p><b>rooms in this house</b>:</p>
+    <ul>
+      <li><a class="retro" onclick="openWindow('win-data')">the data room</a> — trade a piece of your week for a piece of someone else's</li>
+      <li><a class="retro" onclick="openWindow('win-mail')">the correspondence room</a> — a message that costs you time to send</li>
+      <li><a class="retro" onclick="openWindow('win-gallery')">the signed-work room</a> — what you make is proven by the making, not a price</li>
+      <li><a class="retro" onclick="openWindow('win-personal')">your place</a> — build a self-authored page instead of filling out a form</li>
+      <li><a class="retro" onclick="openWindow('win-maze')">find it</a> — the same search, run through three very different amounts of friction</li>
+      <li><a class="retro" onclick="openWindow('win-whoknows')">who knows?</a> — a search engine that answers with uncertain people, not ranked pages</li>
+      <li><a class="retro" onclick="openWindow('win-machine')">the machine between us</a> — watch an AI mediate, and edit, a real conversation</li>
+      <li><a class="retro" onclick="openWindow('win-social')">our data</a> — the same relationship, shown as memory and as a dashboard</li>
+      <li><a class="retro" onclick="openWindow('win-receipt')">your receipt</a> — an itemized account of what this whole site has collected from you</li>
+    </ul>
+    <hr class="dots">
+    <p style="font-size:12px; color:#555;">best viewed by a person, not an algorithm &nbsp;·&nbsp; <span class="blinktext">under construction, always</span></p>
+  </div>
+</div>
+
+<!-- ===================== DATA ROOM WINDOW ===================== -->
+<div class="window" id="win-data" style="width:400px; top:80px; left:110px; z-index:9;">
+  <div class="titlebar" onpointerdown="startDrag(event,'win-data')">
+    <span class="ttl">mydata.htm — the data room</span>
+    <div class="winbtns"><button onclick="minimizeWindow('win-data')">_</button><button onclick="closeWindow('win-data')">×</button></div>
+  </div>
+  <div class="winbody">
+    <h2 class="roomtitle">how was your week?</h2>
+    <p style="font-size:11px; color:#000080; font-style:italic; margin-bottom:6px;">design proposition: what if data exchange were reciprocal instead of extracted?</p>
+    <p style="font-size:12px; color:#444;">color in the grid — each square is a day, darker means more of whatever you're tracking. when you're done, mail it. you won't see anyone else's until you send your own.</p>
+    <div class="datagrid" id="myGrid"></div>
+    <button class="btn-95" id="mailDataBtn" onclick="mailData()">mail it →</button>
+    <span id="dataStatus" style="font-size:12px; margin-left:8px;"></span>
+    <div id="partnerReveal" style="display:none; margin-top:16px;">
+      <hr class="dots">
+      <p style="font-size:12px; color:#444;">someone else's week, in their own hand:</p>
+      <div class="datagrid partnergrid" id="partnerGrid"></div>
+      <p style="font-size:11px; color:#666; margin-top:6px;">(a stand-in for now — the full version pairs you with a real trade, not a script.)</p>
+    </div>
+    <div id="lockedMsg" class="locked-msg" style="margin-top:14px;">nothing to see here yet. give something to get something.</div>
+  </div>
+</div>
+
+<!-- ===================== CORRESPONDENCE ROOM WINDOW ===================== -->
+<div class="window" id="win-mail" style="width:400px; top:120px; left:60px; z-index:8;">
+  <div class="titlebar" onpointerdown="startDrag(event,'win-mail')">
+    <span class="ttl">letters.htm — the correspondence room</span>
+    <div class="winbtns"><button onclick="minimizeWindow('win-mail')">_</button><button onclick="closeWindow('win-mail')">×</button></div>
+  </div>
+  <div class="winbody">
+    <h2 class="roomtitle">write to someone</h2>
+    <p style="font-size:11px; color:#000080; font-style:italic; margin-bottom:6px;">design proposition: what if communication required time and attention instead of neither?</p>
+    <p style="font-size:12px; color:#444;">no autocomplete, no read receipts. once it's sent, it's sent.</p>
+    <textarea class="field" id="mailText" rows="4" placeholder="start writing..." oninput="onMailInput()"></textarea>
+    <div class="voice" id="mailVoice"></div>
+    <button class="btn-95" id="sendBtn" onclick="sendMail()" disabled>send</button>
+    <span id="mailTimer" style="font-size:12px; margin-left:6px; color:#660000;"></span>
+    <hr class="dots">
+    <div id="sentList"></div>
+  </div>
+</div>
+
+<!-- ===================== SIGNED-WORK ROOM WINDOW ===================== -->
+<div class="window" id="win-gallery" style="width:420px; top:160px; left:150px; z-index:7;">
+  <div class="titlebar" onpointerdown="startDrag(event,'win-gallery')">
+    <span class="ttl">gallery.htm — the signed-work room</span>
+    <div class="winbtns"><button onclick="minimizeWindow('win-gallery')">_</button><button onclick="closeWindow('win-gallery')">×</button></div>
+  </div>
+  <div class="winbody">
+    <h2 class="roomtitle">make something</h2>
+    <p style="font-size:11px; color:#000080; font-style:italic; margin-bottom:6px;">design proposition: what if authorship were shown through visible process rather than a metric or a market?</p>
+    <p style="font-size:12px; color:#444;">write or revise below. every saved draft stays in the trail — that trail is what proves this is yours.</p>
+    <textarea class="field" id="workText" rows="4" placeholder="a few lines, a sketch in words, anything..."></textarea>
+    <button class="btn-95" onclick="saveDraft()">save draft</button>
+    <button class="btn-95" onclick="signWork()">sign &amp; display</button>
+    <div class="draft-log" id="draftLog"></div>
+    <div id="finalPiece"></div>
+  </div>
+</div>
+
+<!-- ===================== RECEIPT WINDOW (NEW) ===================== -->
+<div class="window" id="win-receipt" style="width:380px; top:100px; left:200px; z-index:6;">
+  <div class="titlebar" onpointerdown="startDrag(event,'win-receipt')">
+    <span class="ttl">receipt.htm — your data, itemized</span>
+    <div class="winbtns"><button onclick="minimizeWindow('win-receipt')">_</button><button onclick="closeWindow('win-receipt')">×</button></div>
+  </div>
+  <div class="winbody">
+    <h2 class="roomtitle">your receipt</h2>
+    <p style="font-size:11px; color:#000080; font-style:italic; margin-bottom:6px;">design proposition: what does the exchange look like if it's itemized instead of hidden?</p>
+    <p style="font-size:12px; color:#444;">every room on this site collects something from you. most sites never show you an itemized version of that exchange. this one does — plus a running count of activity logged silently in the background, which is always higher than what's itemized below.</p>
+    <div class="receipt-summary">
+      <div>ITEMIZED ENTRIES: <span id="receiptTotal">0</span></div>
+      <div>BACKGROUND CLICKS LOGGED (not itemized): <span id="bgClicks">0</span></div>
+      <div>GOOD BUYER SCORE: <span id="buyerScore">0</span>/100 — <span id="buyerTier">BRONZE</span></div>
+    </div>
+    <hr class="dots">
+    <div class="receipt-list" id="receiptList"><div class="receipt-line"><span>nothing logged yet</span><span></span></div></div>
+    <p style="font-size:11px; color:#666; margin-top:8px;">the "good buyer score" is satire, not a real feature elsewhere on the web — but the underlying math (click volume, form fills, ad engagement → a single number that ranks you) is not.</p>
+  </div>
+</div>
+
+<!-- ===================== YOUR PLACE (personal web) ===================== -->
+<div class="window" id="win-personal" style="width:460px; top:90px; left:250px; z-index:5;">
+  <div class="titlebar" onpointerdown="startDrag(event,'win-personal')">
+    <span class="ttl">personal.htm — your place</span>
+    <div class="winbtns"><button onclick="minimizeWindow('win-personal')">_</button><button onclick="closeWindow('win-personal')">×</button></div>
+  </div>
+  <div class="winbody">
+    <div class="kicker">PROTOTYPE 01 — THE PERSONAL WEB</div>
+    <h2 class="roomtitle">make a space, not a profile</h2>
+    <div class="q">when a digital identity is built from standardized fields and inferred behavior, what disappears when a person is allowed to represent themselves on their own terms?</div>
+    <div class="toolbar">
+      <button class="btn-95 active" id="tabPlace" onclick="setIdentityMode('place')">your place</button>
+      <button class="btn-95" id="tabStandard" onclick="setIdentityMode('standard')">standardized profile</button>
+      <button class="btn-95" id="tabCompare" onclick="setIdentityMode('compare')">compare all three</button>
+    </div>
+    <div id="placeView">
+      <div class="toolbar" style="margin-bottom:12px;">
+        <button class="btn-95 active" id="tabBuild" onclick="setTab('build')">build</button>
+        <button class="btn-95" id="tabPreview" onclick="setTab('preview')">preview as a visitor</button>
+      </div>
+      <div id="buildView">
+        <div class="addrow" id="addRow"></div>
+        <div id="blocksContainer"></div>
+        <div class="findings" id="findings"></div>
+      </div>
+      <div id="previewView" style="display:none;">
+        <div class="preview" id="previewBody"><em>nothing here yet.</em></div>
+      </div>
+    </div>
+    <div id="standardView" style="display:none;">
+      <div class="q">this is what most platforms ask for instead: fixed fields, one category, a character limit.</div>
+      <div class="block"><div class="blocklabel">display name</div><input class="field" id="stdName" oninput="renderStandardCard()"></div>
+      <div class="block"><div class="blocklabel">age range</div>
+        <select class="field" id="stdAge" onchange="renderStandardCard()">
+          <option value="">select...</option><option>18–24</option><option>25–34</option><option>35–44</option><option>45+</option>
+        </select>
+      </div>
+      <div class="block"><div class="blocklabel">category (pick the closest one)</div>
+        <select class="field" id="stdCategory" onchange="renderStandardCard()">
+          <option value="">select...</option><option>creative</option><option>technical</option><option>outdoorsy</option><option>homebody</option><option>social</option>
+        </select>
+      </div>
+      <div class="block"><div class="blocklabel">one-line bio <span id="bioCount" style="float:right;">0/80</span></div>
+        <input class="field" id="stdBio" maxlength="80" oninput="renderStandardCard()">
+      </div>
+      <div class="generic-card" id="standardCard"><em>fill in the fields to generate your profile.</em></div>
+    </div>
+    <div id="compareView" style="display:none;">
+      <div class="q">the same person, described three ways. what does each version make visible — and what does each make impossible to see?</div>
+      <h3 class="cmp">as they made it (your place)</h3>
+      <div class="preview" id="comparePlace"><em>nothing built yet — visit "your place" first.</em></div>
+      <h3 class="cmp">as a standardized profile</h3>
+      <div class="generic-card" id="compareStandard"><em>nothing filled in yet — visit "standardized profile" first.</em></div>
+      <h3 class="cmp">as the machine sees it <span style="font-weight:normal; font-size:10px;">(inferred from behavior, not asked)</span></h3>
+      <div class="machine-card" id="compareMachine"></div>
+    </div>
+    <details class="testing-footer">
+      <summary>what this prototype is testing</summary>
+      <div><b>QUESTION:</b> when a digital identity is built from standardized fields and behavioral data, what disappears when a person is allowed to represent themselves on their own terms?</div>
+      <div><b>INTERVENTION:</b> the same person is described three ways — self-authored, standardized-form, and machine-inferred — from the same underlying content.</div>
+      <div><b>LIMITATION:</b> this "machine profile" uses simple, transparent rules — a real inference system would be far less legible, which may make this version feel more benign than it should.</div>
+    </details>
+  </div>
+</div>
+
+<!-- ===================== FIND IT (unoptimized web) ===================== -->
+<div class="window" id="win-maze" style="width:420px; top:130px; left:300px; z-index:4;">
+  <div class="titlebar" onpointerdown="startDrag(event,'win-maze')">
+    <span class="ttl">maze.htm — find it</span>
+    <div class="winbtns"><button onclick="minimizeWindow('win-maze')">_</button><button onclick="closeWindow('win-maze')">×</button></div>
+  </div>
+  <div class="winbody">
+    <div class="kicker">PROTOTYPE 02 — THE UNOPTIMIZED WEB</div>
+    <h2 class="roomtitle">find the story about the lighthouse</h2>
+    <div class="q">not "is friction good" — what kinds of friction are meaningful, and what kinds are merely inconvenient? try all three modes.</div>
+    <div class="modeSwitch">
+      <button id="btnOpt" class="active" onclick="setSearchMode('optimized')">OPTIMIZED</button>
+      <button id="btnSeamful" onclick="setSearchMode('seamful')">SEAMFUL</button>
+      <button id="btnUnopt" onclick="setSearchMode('unoptimized')">UNOPTIMIZED</button>
+    </div>
+    <div class="task">your task: find the story about the lighthouse. click count and time are tracked in every mode.</div>
+    <div id="optimizedView">
+      <div class="search-row"><input class="field" id="searchBox" placeholder="search..." oninput="filterOptimized()"></div>
+      <div class="items-optimized" id="optList"></div>
+    </div>
+    <div id="seamfulView" style="display:none;">
+      <div class="search-row"><input class="field" id="seamfulSearchBox" placeholder="search..." oninput="renderSeamful()"></div>
+      <div id="seamfulResult"></div>
+    </div>
+    <div id="unoptimizedView" style="display:none;">
+      <div class="loading" id="loadingMsg" style="display:none;">loading, for some reason...</div>
+      <div class="maze" id="mazeGrid"></div>
+    </div>
+    <div class="result" id="resultBox"></div>
+    <div class="stats" id="statsBox"></div>
+    <div class="reflect" id="reflectBox" style="display:none;">
+      <label>which best describes how that felt? (there's no wrong answer — preferring OPTIMIZED is valid data too)</label>
+      <div class="friction-tags" id="frictionTags">
+        <button onclick="tagFriction('tedious', this)">tedious</button>
+        <button onclick="tagFriction('focused', this)">focused</button>
+        <button onclick="tagFriction('discovery', this)">led to discovery</button>
+        <button onclick="tagFriction('accidental', this)">accidentally interesting</button>
+        <button onclick="tagFriction('noopinion', this)">no strong opinion</button>
+      </div>
+      <div id="reflectLog" style="font-size:12px; margin-top:10px; color:#444;"></div>
+    </div>
+    <details class="testing-footer">
+      <summary>what this prototype is testing</summary>
+      <div><b>QUESTION:</b> what kinds of friction are meaningful, and what kinds are merely inconvenient?</div>
+      <div><b>LIMITATION:</b> a one-time toy search task can't capture what friction does over repeated, long-term use.</div>
+    </details>
+  </div>
+</div>
+
+<!-- ===================== WHO KNOWS (human search engine) ===================== -->
+<div class="window" id="win-whoknows" style="width:420px; top:150px; left:340px; z-index:3;">
+  <div class="titlebar" onpointerdown="startDrag(event,'win-whoknows')">
+    <span class="ttl">whoknows.htm — who might know?</span>
+    <div class="winbtns"><button onclick="minimizeWindow('win-whoknows')">_</button><button onclick="closeWindow('win-whoknows')">×</button></div>
+  </div>
+  <div class="winbody">
+    <div class="kicker">PROTOTYPE 03 — THE HUMAN SEARCH ENGINE</div>
+    <h2 class="roomtitle">who might know?</h2>
+    <div class="q">what changes when finding information becomes an encounter with someone else's uncertain, sometimes conflicting experience? try "old websites" or "cooking" — ask both matches, and you'll be asked who you actually believe.</div>
+    <div class="search-row">
+      <input class="field" id="q" placeholder="try: old websites, birds, grief, cooking, javascript..." onkeydown="if(event.key==='Enter') search()">
+      <button class="btn-95" onclick="search()">ask around</button>
+    </div>
+    <div class="hint">real search engines return pages ranked by relevance. this returns people — uncertain, sometimes wrong, sometimes disagreeing with each other.</div>
+    <div id="results"></div>
+    <details class="testing-footer">
+      <summary>what this prototype is testing</summary>
+      <div><b>QUESTION:</b> what changes when finding information becomes an encounter with another person's experience, rather than an extraction of information from a page?</div>
+      <div><b>LIMITATION:</b> the "people" here are scripted, not real — a genuine version raises its own consent and labor questions this prototype doesn't address.</div>
+    </details>
+  </div>
+</div>
+
+<!-- ===================== THE MACHINE BETWEEN US ===================== -->
+<div class="window" id="win-machine" style="width:440px; top:170px; left:200px; z-index:2;">
+  <div class="titlebar" onpointerdown="startDrag(event,'win-machine')">
+    <span class="ttl">between.htm — the machine between us</span>
+    <div class="winbtns"><button onclick="minimizeWindow('win-machine')">_</button><button onclick="closeWindow('win-machine')">×</button></div>
+  </div>
+  <div class="winbody">
+    <div class="kicker">PROTOTYPE 04 — THE MACHINE BETWEEN US</div>
+    <h2 class="roomtitle">a conversation, with a third participant</h2>
+    <div class="q">the machine here isn't obviously bad — it can make you clearer, kinder, more confident. if it does, what happens to the hesitation and authorship that were part of the original?</div>
+    <div class="toggleRow">
+      <span>AI mediation:</span>
+      <button id="aiOn" class="active" onclick="setAI(true)">ON</button>
+      <button id="aiOff" onclick="setAI(false)">OFF</button>
+    </div>
+    <div class="interceptBox" id="intercept">
+      <div class="lbl">WHAT I WROTE</div><div class="original" id="origText"></div>
+      <div class="lbl" style="margin-top:8px;">WHAT THE MACHINE PROPOSES</div><div class="revised" id="revText"></div>
+      <div class="lbl" style="margin-top:8px;">WHAT IT CHANGED / REMOVED</div><div id="removedText" style="margin-bottom:6px;"></div>
+      <div class="lbl">WHAT IT INFERRED ABOUT YOU</div><div class="why" id="whyText" style="margin-bottom:6px;"></div>
+      <div class="lbl">WHAT IT PREDICTS THEY'LL FEEL</div><div id="predictText" style="margin-bottom:6px; font-size:12px;"></div>
+      <div class="lbl">WHAT YOU GIVE UP IF YOU ACCEPT</div><div id="giveupText" style="margin-bottom:10px; font-size:12px; font-weight:bold;"></div>
+      <button onclick="acceptEdit()">send the machine's version</button>
+      <button onclick="rejectEdit()">send what I actually wrote</button>
+      <button id="editEditBtn" onclick="startEditingEdit()">edit it myself</button>
+      <textarea class="field" id="editArea" rows="2" style="display:none; margin-top:8px;"></textarea>
+      <button id="sendEditedBtn" onclick="sendEditedVersion()" style="display:none; margin-top:6px;">send my edited version</button>
+    </div>
+    <div class="thread" id="thread"></div>
+    <div class="composer">
+      <input class="field" id="msgInput" placeholder="write to them... try: 'i don't really know how to say this but i think i'm upset'" onkeydown="if(event.key==='Enter') trySend()">
+      <button class="btn-95" onclick="trySend()">send</button>
+    </div>
+    <div class="tally" id="tallyBox"></div>
+    <details class="testing-footer">
+      <summary>what this prototype is testing</summary>
+      <div><b>QUESTION:</b> if AI mediation makes communication clearer, kinder, and more effective, what happens to the ambiguity, hesitation, and authorship of the original message?</div>
+      <div><b>LIMITATION:</b> this machine is honest about its edits by design — a real deployed system has no incentive to show you what it removed.</div>
+    </details>
+  </div>
+</div>
+
+<!-- ===================== OUR DATA (social) ===================== -->
+<div class="window" id="win-social" style="width:420px; top:190px; left:260px; z-index:1;">
+  <div class="titlebar" onpointerdown="startDrag(event,'win-social')">
+    <span class="ttl">ourdata.htm — our data</span>
+    <div class="winbtns"><button onclick="minimizeWindow('win-social')">_</button><button onclick="closeWindow('win-social')">×</button></div>
+  </div>
+  <div class="winbody">
+    <div class="kicker">PROTOTYPE 05 — THE SOCIAL DATA WEB</div>
+    <h2 class="roomtitle">a relationship, not a dashboard</h2>
+    <div class="q">both representations below describe the exact same relationship. what does each let you see, and what does each make impossible to see?</div>
+    <div class="actionRow">
+      <button onclick="logEvent('shared')">shared a thought</button>
+      <button onclick="logEvent('disagreed')">disagreed</button>
+      <button onclick="logEvent('introduced')">introduced something new</button>
+      <button onclick="logEvent('returned')">returned to an old topic</button>
+    </div>
+    <div class="dual-view">
+      <button class="active" id="btnFelt" onclick="setView('felt')">how it felt</button>
+      <button id="btnSystem" onclick="setView('system')">what the system recorded</button>
+    </div>
+    <div id="feltView">
+      <div class="stage"><svg id="svgStage" viewBox="0 0 400 220"></svg></div>
+      <div class="human-log" id="humanLog"><em>nothing yet.</em></div>
+    </div>
+    <div id="systemView" style="display:none;">
+      <div class="metrics-panel">
+        <div class="stat-row"><span>INTERACTIONS</span><span id="mInteractions">0</span></div>
+        <div class="stat-row"><span>SIMILARITY SCORE</span><span id="mSimilarity">—</span></div>
+        <div class="stat-row"><span>TOPICS</span><span id="mTopics">0</span></div>
+        <div class="stat-row"><span>DISAGREEMENTS</span><span id="mDisagreements">0</span></div>
+        <div class="stat-row"><span>ENGAGEMENT SCORE</span><span id="mEngagement">0</span></div>
+      </div>
+    </div>
+    <div class="findings" id="reflectQuestion" style="margin-top:14px;"></div>
+    <details class="testing-footer">
+      <summary>what this prototype is testing</summary>
+      <div><b>QUESTION:</b> can data represent a relationship without reducing it to a metric — and is the qualitative version automatically better?</div>
+      <div><b>LIMITATION:</b> both views here are equally fabricated by this prototype — a real version has to reckon with which one a platform actually has an incentive to show you by default.</div>
+    </details>
+  </div>
+</div>
+
+<!-- ===================== ABOUT WINDOW ===================== -->
+<div class="window" id="win-about" style="width:400px; top:200px; left:200px; z-index:0;">
+  <div class="titlebar" onpointerdown="startDrag(event,'win-about')">
+    <span class="ttl">about.htm</span>
+    <div class="winbtns"><button onclick="minimizeWindow('win-about')">_</button><button onclick="closeWindow('win-about')">×</button></div>
+  </div>
+  <div class="winbody">
+    <h2 class="roomtitle">what this is</h2>
+    <p>one interface instead of six separate pages, because the thesis is about a single progression, not five unrelated arguments. every room is a different design proposition; the <b>era bar</b> at the top is what actually moves them through time; the <b>pop-ups</b> and the <b>receipt</b> room make the usually-invisible mechanics of tracking and monetization visible instead of ambient.</p>
+    <p style="font-size:12px; color:#555;">early web browsing involved almost no visible tracking and almost no moderation — the two were entangled from the start. as the timeline advances, tracking becomes constant and mostly hidden, while moderation and ranking become constant and also mostly hidden. neither trade was ever put to a vote.</p>
+    <details class="testing-footer">
+      <summary>what this prototype is testing</summary>
+      <div><b>QUESTION:</b> as digital environments optimize interaction for efficiency, prediction, and monetization, what gets removed, concealed, or flattened along the way — and can that removal be made visible again, inside the interface itself, rather than argued about outside it?</div>
+      <div><b>INTERVENTION:</b> five prior prototypes plus a data receipt are combined into one inhabitable desktop, driven by a shared era timeline: dragging the timeline forward doesn't just restyle the page, it changes which features are visible, how often pop-ups interrupt you, and what's quietly monetized.</div>
+      <div><b>TRADEOFF:</b> a synthesis is more atmospheric and easier to feel as a whole, but harder to isolate — it's less clear which specific proposition is doing the work if someone likes or dislikes the experience.</div>
+      <div><b>OBSERVATION:</b> read the "your trace" panel on the home window after using a few rooms across a few different eras, and compare the itemized receipt to the background click count next to it.</div>
+      <div><b>LIMITATION:</b> this is deliberately the least conclusive prototype in the series — it should not be read as the thesis's final answer, only as one way several propositions, and a timeline, might coexist in a single interface.</div>
+    </details>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
