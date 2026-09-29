@@ -32,6 +32,21 @@
     bar.insertBefore(b, firstBtn);
   });
 
+  // 1999-2003: the dot-com era, inserted right after 1996's "early web" step.
+  const idx1996 = ERAS.findIndex((e) => e.key === '1996');
+  ERAS.splice(idx1996 + 1, 0, {
+    key: '1999', label: '1999', name: 'the dot-com era',
+    note: 'portals compete for your homepage, search engines race to index everything, and personal sites go up alongside them \u2014 all under glossy, Y2K-optimistic chrome. banner ads and pop-ups are now a business model, not an experiment.',
+  });
+  eraPopupInterval['1999'] = 25000;
+  const btn1996 = bar.querySelector('.era-btn[data-era="1996"]');
+  const btn1999 = document.createElement('button');
+  btn1999.className = 'era-btn';
+  btn1999.dataset.era = '1999';
+  btn1999.textContent = '1999';
+  btn1999.onclick = () => setEra('1999');
+  btn1996.after(btn1999);
+
   /* ---------- 2. the 1991 onboarding document ---------- */
   const overlay = document.createElement('div');
   overlay.id = 'era1991';
@@ -139,6 +154,63 @@
     });
   });
 
+  /* ---------- 3b. the 1999 "skip intro" splash ---------- */
+  const splash = document.createElement('div');
+  splash.id = 'era1999';
+  splash.innerHTML = `
+    <div class="splash-shape"><i></i><i></i></div>
+    <div class="splash-inner">
+      <h1>THIRD SPACE</h1>
+      <p>a website, made with Macromedia Flash\u2122</p>
+      <div class="splash-bar"><div></div></div>
+      <div class="splash-links"><a data-skip>skip intro</a> \u00b7 <a data-skip>enter site</a></div>
+    </div>
+    <div class="splash-note">best experienced at 800\u00d7600 &middot; get the Flash 4 plug-in</div>`;
+  document.body.appendChild(splash);
+  splash.addEventListener('click', () => hideSplash1999());
+  function showSplash1999() {
+    splash.classList.add('show');
+    clearTimeout(splash._t);
+    splash._t = setTimeout(hideSplash1999, 2800);
+  }
+  function hideSplash1999() {
+    splash.classList.remove('show');
+    clearTimeout(splash._t);
+  }
+
+  /* ---------- 3c. portal chrome + hit counter for every window ---------- */
+  let dcHits = 4812;
+  function bumpHits() {
+    if (currentEra !== '1999') return;
+    dcHits += 1;
+    document.querySelectorAll('.dc-hits .counter').forEach((s) => {
+      s.textContent = 'hits: ' + String(dcHits).padStart(6, '0');
+    });
+  }
+  document.addEventListener('click', bumpHits);
+
+  const dcTabs = ['Home', 'News', 'Shop', 'Email', 'Chat'];
+  Object.keys(windowTitles).forEach((id) => {
+    const w = document.getElementById(id);
+    if (!w) return;
+
+    const chrome = document.createElement('div');
+    chrome.className = 'dc-chrome';
+    chrome.innerHTML = `
+      <div class="dc-tabs">${dcTabs.map((t, i) => `<span${i === 0 ? ' class="on"' : ''}>${t}</span>`).join('')}</div>
+      <div class="dc-search"><input placeholder="search the web" readonly><button>Go</button></div>`;
+    w.querySelector('.titlebar').after(chrome);
+
+    const foot = document.createElement('div');
+    foot.className = 'dc-foot';
+    foot.innerHTML = `
+      <span class="dc-badge n">Netscape NOW!</span>
+      <span class="dc-badge e">Get IE 5</span>
+      <span class="dc-badge r">800\u00d7600</span>
+      <span class="dc-hits">visitors: <span class="counter">hits: 004812</span></span>`;
+    w.appendChild(foot);
+  });
+
   /* ---------- 4. no tracking before 1994 ---------- */
   // Nothing is itemized in 1991/1993, and the background click counter and
   // score stay frozen at whatever they were when the visitor entered.
@@ -166,6 +238,10 @@
     if (key === '1993') {
       const home = document.getElementById('win-home');
       if (!home.classList.contains('open')) openWindow('win-home');
+    }
+    if (key === '1999') {
+      showSplash1999();
+      for (let i = 0; i < 2; i++) setTimeout(spawnPopup, 3200 + i * 900);
     }
     renderReceipt();
   };

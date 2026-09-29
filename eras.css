@@ -220,6 +220,91 @@ body.era-1996 .ad-banner {
 }
 
 /* ---------------------------------------------------------------------
+   1999-2003 — the dot-com era (key 'era-1999'). Portals and search
+   engines compete for eyeballs; personal blogs and Flash-portfolio sites
+   sit alongside them; Windows-2000/Y2K glossy chrome everywhere. A
+   "skip intro" Flash splash greets every visit, the way agency and
+   portfolio sites did at the time.
+   (references: Amazon '97, Yahoo, Excite, AltaVista, GeoCities, peterme.com,
+   BBC News, Washington Post, early Google, Flash splash pages, IE/Win2000)
+   --------------------------------------------------------------------- */
+#era1999 {
+  position: fixed; inset: 0; z-index: 2900; display: none;
+  align-items: center; justify-content: center; flex-direction: column;
+  background: #0b0b0b; color: #fff; text-align: center;
+  font-family: Arial, Helvetica, sans-serif; cursor: pointer;
+}
+#era1999.show { display: flex; }
+.splash-shape { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.splash-shape i { position: absolute; display: block; background: #e8480c; }
+.splash-shape i:nth-child(1) {
+  width: 60vw; height: 60vh; top: -10vh; left: -15vw; opacity: .9;
+  clip-path: polygon(15% 0, 100% 10%, 85% 100%, 0 85%);
+}
+.splash-shape i:nth-child(2) {
+  width: 40vw; height: 40vh; bottom: -12vh; right: -10vw; opacity: .9;
+  background: #1c1c1c; border: 2px solid #e8480c;
+  clip-path: polygon(0 20%, 80% 0, 100% 75%, 20% 100%);
+}
+.splash-inner { position: relative; z-index: 1; padding: 24px; }
+.splash-inner h1 {
+  font: 900 44px/1.05 Arial, Helvetica, sans-serif; letter-spacing: -1px;
+  margin: 0 0 6px; text-shadow: 3px 3px 0 #e8480c;
+}
+.splash-inner p { font-size: 12px; color: #ccc; margin: 0 0 22px; letter-spacing: 1px; text-transform: uppercase; }
+.splash-bar { width: 240px; height: 10px; border: 1px solid #666; margin: 0 auto 14px; background: #1c1c1c; }
+.splash-bar div { height: 100%; width: 0; background: #e8480c; animation: loadbar 2.4s ease-out forwards; }
+@keyframes loadbar { to { width: 100%; } }
+.splash-links { font-size: 11px; position: relative; z-index: 1; }
+.splash-links a { color: #9ecbff; margin: 0 8px; cursor: pointer; text-decoration: underline; }
+.splash-note { margin-top: 26px; font-size: 10px; color: #777; position: relative; z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .splash-bar div { animation: none; width: 100%; } }
+
+/* dot-com chrome injected into every window */
+.dc-chrome, .dc-foot { display: none; }
+body.era-1999 .dc-chrome, body.era-1999 .dc-foot { display: flex; }
+body.era-1999 #desktop {
+  background: #b9c7d6;
+  background-image: repeating-linear-gradient(rgba(255,255,255,.25) 0px, rgba(255,255,255,.25) 1px, transparent 1px, transparent 24px);
+}
+body.era-1999 .ghost { display: none; }
+body.era-1999 .titlebar { background: linear-gradient(180deg,#4c8ce0,#1c53a8 55%,#123a80); }
+body.era-1999 .winbody {
+  background: #fff; font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 12px; max-height: 50vh;
+}
+body.era-1999 h2.roomtitle { font-family: Verdana, Arial, sans-serif; font-size: 15px; color: #14418c; border-bottom: 2px solid #14418c; }
+
+.dc-chrome {
+  align-items: center; gap: 8px; padding: 4px 6px;
+  background: linear-gradient(180deg,#eef3fa,#c9d7ea); border-bottom: 1px solid #96a9c2;
+  font: 11px Verdana, Arial, sans-serif;
+}
+.dc-tabs { display: flex; gap: 2px; }
+.dc-tabs span {
+  padding: 3px 8px; background: #dce6f4; border: 1px solid #9fb3cc; border-bottom: none;
+  color: #14418c;
+}
+.dc-tabs span.on { background: #fff; font-weight: bold; }
+.dc-search { margin-left: auto; display: flex; gap: 3px; }
+.dc-search input { width: 110px; padding: 2px 4px; border: 1px inset #99a; font-size: 11px; }
+.dc-search button {
+  padding: 2px 8px; font-size: 11px; color: #fff; cursor: pointer; border: none;
+  background: linear-gradient(180deg,#ff8a2e,#e05e00); font-weight: bold;
+}
+
+.dc-foot {
+  align-items: center; gap: 6px; flex-wrap: wrap; padding: 4px 6px;
+  background: #eef3fa; border-top: 1px solid #c2d0e2; font: 9px Verdana, Arial, sans-serif;
+}
+.dc-badge { padding: 2px 5px; color: #fff; font-weight: bold; }
+.dc-badge.n { background: #103a8b; }
+.dc-badge.e { background: #0b6b00; }
+.dc-badge.r { background: #444; }
+.dc-hits { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+.dc-hits .counter { font-size: 10px; padding: 1px 5px; }
+
+/* ---------------------------------------------------------------------
    2004 onward: unchanged for now (existing body.era-XXXX rules in style.css).
    Add new blocks below as each era gets its reference.
    --------------------------------------------------------------------- */
