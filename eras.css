@@ -12,32 +12,30 @@
    --------------------------------------------------------------------- */
 #era1991 {
   position: fixed; inset: 0; z-index: 3000;
-  background: #454545;
+  background: #fff;
   overflow-y: auto;
   display: none;
-  padding: 56px 16px 80px;
+  padding: 0;
 }
 body.era-1991 #era1991 { display: block; }
 
 .doc1991 {
-  display: none;
+  display: block;
   background: #fff; color: #000;
-  max-width: 860px; margin: 0 auto;
-  padding: 8px 8px 48px;
-  min-height: 62vh;
+  width: 100%; min-height: 100%;
+  margin: 0;
+  box-sizing: border-box;
   font-family: 'Times New Roman', Times, serif;
-  font-size: 16px; line-height: 1.2;
-  border-radius: 0 0 18px 6px;
+  font-size: 18px; line-height: 1.35;
+  padding: 24px 24px 120px;
 }
-.doc1991.show { display: block; }
-.doc1991 h1 { font-size: 2em; font-weight: bold; margin: .67em 0; }
-.doc1991 p  { margin: 1em 0; }
-.doc1991 dl { margin: 1em 0; }
-.doc1991 dd { margin-left: 40px; }
-.doc1991 ul { margin: 1em 0; padding-left: 40px; }
+.doc1991 h1 { font-size: 2.1em; font-weight: bold; margin: 0 0 .6em; }
+.doc1991 p  { margin: 1em 0; max-width: 900px; }
+.doc1991 dl { margin: 1.4em 0 0; }
+.doc1991 dt { margin-top: 0; }
+.doc1991 dd { margin: 0 0 .9em 40px; }
 .doc1991 a  { color: #0000ee; text-decoration: underline; cursor: pointer; }
 .doc1991 a.v { color: #551a8b; }
-.doc1991 blockquote { margin: 1em 40px; }
 
 /* ---------------------------------------------------------------------
    1993 — public domain & browsers. Mosaic-style chrome inside every window:
@@ -152,7 +150,7 @@ body.era-1996 h2.roomtitle {
   color: #b00000; border-bottom: 3px double #000080;
 }
 
-/* Netscape chrome */
+/* Netscape chrome
 .ns-chrome {
   background: #c0c0c0; color: #000;
   font-family: Arial, Helvetica, sans-serif; font-size: 11px;
@@ -185,10 +183,10 @@ body.era-1996 h2.roomtitle {
 .ns-status {
   background: #c0c0c0; border-top: 1px solid #fff;
   font: 10px Arial, Helvetica, sans-serif; padding: 2px 6px; color: #000;
-}
+} */
 
 /* banner ads (served in every open window; clicking one is logged) */
-body.era-1996 .ad-banner {
+/* body.era-1996 .ad-banner {
   display: block; position: relative; cursor: pointer;
   margin: 0 0 10px; height: 46px; line-height: 42px; text-align: center;
   font: bold 14px Arial, Helvetica, sans-serif;
@@ -217,7 +215,7 @@ body.era-1996 .ad-banner {
 }
 @media (prefers-reduced-motion: reduce) {
   .marquee span, .ad-banner, .newbadge { animation: none !important; }
-}
+} */
 
 /* ---------------------------------------------------------------------
    1999-2003 — the dot-com era (key 'era-1999'). Portals and search
@@ -229,36 +227,109 @@ body.era-1996 .ad-banner {
    BBC News, Washington Post, early Google, Flash splash pages, IE/Win2000)
    --------------------------------------------------------------------- */
 #era1999 {
-  position: fixed; inset: 0; z-index: 2900; display: none;
-  align-items: center; justify-content: center; flex-direction: column;
-  background: #0b0b0b; color: #fff; text-align: center;
-  font-family: Arial, Helvetica, sans-serif; cursor: pointer;
+  position: fixed; inset: 0; z-index: 2900; display: none; overflow: hidden;
+  color: #fff; font-family: Arial, Helvetica, sans-serif; cursor: default;
+  background:
+    radial-gradient(ellipse 65% 50% at 50% 50%, rgba(150,160,245,.30), transparent 70%),
+    linear-gradient(120deg, #230a6e 0%, #34109a 50%, #4a24b8 100%);
 }
-#era1999.show { display: flex; }
-.splash-shape { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-.splash-shape i { position: absolute; display: block; background: #e8480c; }
-.splash-shape i:nth-child(1) {
-  width: 60vw; height: 60vh; top: -10vh; left: -15vw; opacity: .9;
-  clip-path: polygon(15% 0, 100% 10%, 85% 100%, 0 85%);
+#era1999.show  { display: block; }
+#era1999.ready { cursor: pointer; }
+
+/* background: pojo-style swirl + matinee-style thin lines */
+.s99-swirl {
+  position: absolute; left: 28%; top: 34%; width: 86vmin; height: 86vmin; border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(190,200,255,.22) 0deg 10deg, rgba(40,30,130,0) 10deg 22deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 68%);
+          mask-image: radial-gradient(circle, #000 0%, transparent 68%);
+  transform: translate(-50%,-50%) scaleY(.5);
 }
-.splash-shape i:nth-child(2) {
-  width: 40vw; height: 40vh; bottom: -12vh; right: -10vw; opacity: .9;
-  background: #1c1c1c; border: 2px solid #e8480c;
-  clip-path: polygon(0 20%, 80% 0, 100% 75%, 20% 100%);
+#era1999.play .s99-swirl { animation: s99swirl 120s linear infinite; }
+@keyframes s99swirl { to { transform: translate(-50%,-50%) scaleY(.5) rotate(360deg); } }
+
+.s99-lines {
+  position: absolute; inset: 0; pointer-events: none; opacity: .35;
+  background:
+    repeating-linear-gradient(0deg,  rgba(200,210,255,.35) 0 1px, transparent 1px 46px),
+    repeating-linear-gradient(90deg, rgba(200,210,255,.18) 0 1px, transparent 1px 120px);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 70%);
+          mask-image: linear-gradient(90deg, transparent 0%, #000 70%);
 }
-.splash-inner { position: relative; z-index: 1; padding: 24px; }
-.splash-inner h1 {
-  font: 900 44px/1.05 Arial, Helvetica, sans-serif; letter-spacing: -1px;
-  margin: 0 0 6px; text-shadow: 3px 3px 0 #e8480c;
+/* asymmetrical linework (matinee-style) */
+.s99-geo { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.s99-geo * { fill: none; vector-effect: non-scaling-stroke; }
+.s99-geo .g-t { stroke: rgba(200,210,255,.38); stroke-width: 1px; }
+.s99-geo .g-m { stroke: rgba(200,210,255,.30); stroke-width: 2px; }
+.s99-geo .g-k { stroke: rgba(200,210,255,.20); stroke-width: 5px; }
+#era1999.play .s99-geo { animation: s99geo 2.4s ease .3s both; }
+@keyframes s99geo { from { opacity: 0; } to { opacity: 1; } }
+
+/* wordmark band */
+.s99-band { position: absolute; left: 0; right: 0; top: 7%; height: 58px; background: rgba(255,255,255,.12); }
+.s99-mark {
+  position: absolute; left: 4%; top: 7%; height: 58px; line-height: 58px;
+  font: 300 28px 'Trebuchet MS', Verdana, sans-serif; letter-spacing: .4em;
+  text-transform: uppercase; color: #e4e9ff;
 }
-.splash-inner p { font-size: 12px; color: #ccc; margin: 0 0 22px; letter-spacing: 1px; text-transform: uppercase; }
-.splash-bar { width: 240px; height: 10px; border: 1px solid #666; margin: 0 auto 14px; background: #1c1c1c; }
-.splash-bar div { height: 100%; width: 0; background: #e8480c; animation: loadbar 2.4s ease-out forwards; }
-@keyframes loadbar { to { width: 100%; } }
-.splash-links { font-size: 11px; position: relative; z-index: 1; }
-.splash-links a { color: #9ecbff; margin: 0 8px; cursor: pointer; text-decoration: underline; }
-.splash-note { margin-top: 26px; font-size: 10px; color: #777; position: relative; z-index: 1; }
-@media (prefers-reduced-motion: reduce) { .splash-bar div { animation: none; width: 100%; } }
+
+/* pinwheel burst, top right */
+.s99-burst { position: absolute; right: 8%; top: 22%; width: 0; height: 0; }
+#era1999.play .s99-burst { animation: s99spin 18s linear infinite; }
+@keyframes s99spin { to { transform: rotate(360deg); } }
+.s99-burst i {
+  position: absolute; left: -14px; top: -14px; width: 28px; height: 28px; background: #d78ae6;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  transform: rotate(var(--a)) translateY(-56px);
+}
+.s99-burst i:nth-child(even) {
+  left: -8px; top: -8px; width: 16px; height: 16px; background: #6fd6f0;
+  transform: rotate(var(--a)) translateY(-30px);
+}
+
+/* glossy capsules */
+.s99-pills { position: absolute; inset: 0; --u: clamp(120px, 16vw, 230px); }
+.s99-pill {
+  position: absolute; left: var(--x); top: var(--y);
+  width: var(--w); height: auto; aspect-ratio: 1 / 1;
+  transform: rotate(var(--rot)); opacity: 0;
+  filter: drop-shadow(0 calc(var(--w) * .12) calc(var(--w) * .08) rgba(0,0,15,.55));
+  pointer-events: none; user-select: none;
+}
+#era1999.play .s99-pill {
+  animation: s99in .9s ease-out forwards, s99bob 4.5s ease-in-out infinite;
+  animation-delay: var(--d), calc(var(--d) + .9s);
+}
+@keyframes s99in  { from { opacity: 0; scale: .4; } to { opacity: 1; scale: 1; } }
+@keyframes s99bob { 50% { translate: 0 -10px; } }
+
+/* copy */
+.s99-copy { position: absolute; left: 4%; bottom: 27%; width: min(520px, 88vw); }
+.s99-tag {
+  display: inline-block; overflow: hidden; white-space: nowrap; width: 0; max-width: 100%;
+  font: 15px 'Courier New', monospace; letter-spacing: 1px; text-transform: uppercase;
+  color: #dfe5ff; border-right: 2px solid #ffe23d;
+}
+#era1999.play .s99-tag { animation: s99type 2.6s steps(38) 1.2s forwards, s99caret .7s step-end infinite; }
+@keyframes s99type  { to { width: 38ch; } }
+@keyframes s99caret { 50% { border-right-color: transparent; } }
+.s99-copy p { margin: 14px 0 0; font-size: 13px; line-height: 1.6; color: #c9d1ff; opacity: 0; }
+#era1999.play .s99-copy p { animation: s99fade 1.2s ease 3.8s forwards; }
+@keyframes s99fade { to { opacity: 1; } }
+
+/* loader */
+.s99-load { position: absolute; left: 4%; bottom: 11%; width: min(420px, 70vw); }
+.s99-status { font: 11px 'Courier New', monospace; color: #ffe23d; margin-bottom: 6px; min-height: 14px; }
+.s99-bar { height: 14px; padding: 2px; box-sizing: border-box; border: 1px solid rgba(255,255,255,.55); background: rgba(10,0,50,.55); }
+.s99-fill { height: 100%; width: 0; background: repeating-linear-gradient(90deg, #ffe23d 0 8px, transparent 8px 10px); }
+.s99-pct { font: 10px 'Courier New', monospace; color: #c9d1ff; margin-top: 4px; }
+.s99-enter { display: inline-block; margin-top: 12px; font-size: 13px; color: #ffe23d; text-decoration: underline; opacity: 0; pointer-events: none; }
+#era1999.ready .s99-enter { opacity: 1; pointer-events: auto; animation: blinker 1.1s step-start infinite; }
+.s99-note { position: absolute; left: 4%; bottom: 3%; font-size: 10px; color: #8b83c9; }
+
+@media (prefers-reduced-motion: reduce) {
+  #era1999 * { animation: none !important; }
+  .s99-pill { opacity: 1; } .s99-tag { width: 38ch; } .s99-copy p { opacity: 1; }
+}
 
 /* dot-com chrome injected into every window */
 .dc-chrome, .dc-foot { display: none; }
@@ -304,6 +375,100 @@ body.era-1999 h2.roomtitle { font-family: Verdana, Arial, sans-serif; font-size:
 .dc-hits { margin-left: auto; display: flex; align-items: center; gap: 4px; }
 .dc-hits .counter { font-size: 10px; padding: 1px 5px; }
 
+/* bigger era bar + note; icons sit below them */
+#eraBar { font-size: 14px; padding: 8px 12px; }
+.era-btn { font-size: 13px; padding: 4px 10px; }
+#eraNote {
+  top: var(--bar-h, 42px);          /* sits directly under the bar, whatever its height */
+  font-size: 16px; line-height: 1.4; padding: 9px 14px;
+}
+.icon { margin-top: var(--chrome-h, 110px); }   /* pushes icons below bar + note */
+
+.popup-head { cursor: grab; touch-action: none; user-select: none; }
+.popup-head:active { cursor: grabbing; }
+
+/* ===== legibility pass: larger text inside windows + pop-ups ===== */
+:root { --t: 17px; }   /* master body-text size: change this one value to scale everything */
+
+/* wider windows so larger text doesn't stretch them too tall */
+.window { width: min(540px, 92vw) !important; }
+html body .window .winbody {
+  font-size: var(--t);
+  line-height: 1.6;
+  max-height: calc(100vh - 230px);
+}
+html body .window h2.roomtitle { font-size: calc(var(--t) + 6px); }
+
+/* the small inline-styled notes ("thesis:", design propositions, hints) */
+.winbody [style*="font-size"] { font-size: calc(var(--t) - 2px) !important; }
+
+/* small labels, captions, and helper text */
+.winbody .kicker, .winbody .q, .winbody .hint, .winbody .stats,
+.winbody .tally, .winbody .findings, .winbody .loading,
+.winbody .task, .winbody .blocklabel, .winbody .sentmsg .meta,
+.winbody .draft-log, .winbody .signature, .winbody .not-for-sale,
+.winbody .annotation, .winbody .interceptBox, .winbody .interceptBox .lbl,
+.winbody .person-card .reason, .winbody .uncertainty-box,
+.winbody .testing-footer, .winbody .testing-footer summary,
+.winbody .receipt-summary, .winbody .receipt-list, .winbody .receipt-line span:last-child,
+.winbody .metrics-panel, .winbody .locked-msg, .winbody .trace-box,
+.winbody .generic-card .gmeta, .winbody .machine-card {
+  font-size: calc(var(--t) - 3px);
+  line-height: 1.5;
+}
+
+/* body-sized content inside rooms */
+.winbody .person-card .about, .winbody .reply, .winbody .bubble,
+.winbody .items-optimized .item, .winbody .human-log, .winbody .sentmsg,
+.winbody .disagree-box, .winbody .generic-card .gbio {
+  font-size: calc(var(--t) - 1px);
+}
+
+/* buttons and form fields */
+.winbody .btn-95, .winbody .addbtn, .winbody .askbtn, .winbody .remove,
+.winbody .modeSwitch button, .winbody .toggleRow button,
+.winbody .actionRow button, .winbody .dual-view button,
+.winbody .friction-tags button, .winbody .interceptBox button,
+.winbody .maze .door {
+  font-size: calc(var(--t) - 3px);
+  padding-top: 6px; padding-bottom: 6px;
+}
+.winbody textarea.field, .winbody input.field, .winbody select.field {
+  font-size: calc(var(--t) - 2px);
+}
+.winbody .counter { font-size: calc(var(--t) - 2px); }
+.winbody .badge { font-size: calc(var(--t) - 5px); }
+
+/* window chrome: title bar, Mosaic, Netscape, portal */
+.titlebar { font-size: 15px; }
+.winbtns button { width: 22px; height: 20px; font-size: 13px; }
+
+.mos-chrome, .mos-menu, .mos-row input { font-size: 13px; }
+.mos-row label { font-size: 12px; width: 96px; }
+.mos-tools button { width: 28px; height: 24px; font-size: 13px; }
+.mos-foot button { font-size: 12px; padding: 3px 8px; }
+
+.ns-chrome, .ns-menu, .ns-loc input, .ns-status { font-size: 13px; }
+.ns-tools button { width: 52px; font-size: 11px; }
+.ns-tools button b { font-size: 18px; }
+.ns-dir span { font-size: 12px; }
+
+.dc-chrome { font-size: 13px; }
+.dc-search input { font-size: 13px; width: 130px; }
+.dc-search button { font-size: 13px; }
+.dc-foot { font-size: 11px; }
+.dc-hits .counter { font-size: 12px; }
+
+/* pop-up ads */
+.popup-ad { width: 290px; font-size: 15px; }
+.popup-head { font-size: 12px; padding: 4px 8px; }
+.popup-x { width: 20px; height: 20px; font-size: 12px; }
+.popup-body { padding: 10px; }
+.popup-body p { font-size: 14px; line-height: 1.45; }
+.popup-accept { font-size: 14px; padding: 7px; }
+
+/* desktop icon labels (from last round) */
+.icon .label { font-size: 14px; }
 /* ---------------------------------------------------------------------
    2004 onward: unchanged for now (existing body.era-XXXX rules in style.css).
    Add new blocks below as each era gets its reference.

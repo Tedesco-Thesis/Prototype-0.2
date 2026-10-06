@@ -51,72 +51,76 @@
   const overlay = document.createElement('div');
   overlay.id = 'era1991';
   overlay.innerHTML = `
-    <div class="doc1991" data-page="home">
-      <h1>World Wide Web</h1>
-      <p>This is a small hypertext about the World Wide Web, and about what happens to a medium when it is tuned, year after year, for efficiency, prediction and money. You are starting where it started: 1991, a few pages of linked text at a physics laboratory in Switzerland.</p>
-      <p>Everything here is linked, directly or indirectly, to this document. Nothing is ranked, and nothing is recording which links you choose.</p>
+    <div class="doc1991">
+      <h1>The World Wide Web</h1>
+      <p>This is a simple hypertext about the Web, and about what happens to it
+       over time as it is tuned for efficiency, prediction, and money.
+        You are starting where it started, in 1991. It is just a few pages of linked text, 
+        nothing else :)</p>
+      <p>Everything here is linked, directly or indirectly, to this site. 
+      Click an underlined word to follow it. There is no menu, no search box, 
+      no "ranking", and nothing tracking which links you choose.</p>
       <dl>
         <dt><a data-go="hyper">What is HyperText?</a></dt>
-        <dd>Text with links. The whole idea in a sentence.</dd>
-        <dt><a data-go="overview">General overview</a></dt>
-        <dd>There is no top. Some ways of looking around.</dd>
+        <dd>Hypertext is essentially just text that links to something else. Thats more or less the whole idea.</dd>
+        
         <dt><a data-go="thesis">The thesis</a></dt>
-        <dd>What this project argues, in plain words.</dd>
+        <dd>What this project/I am exploring.</dd>
         <dt><a data-go="enter">Getting a browser</a></dt>
-        <dd>1993: the code is released to the public and a friendlier window opens onto it. Continue.</dd>
+        <dd>1993: the code is released to the public, and a friendlier window 
+        opens onto all this. Click there when you're ready to see the next "era" of the internet!</dd>
       </dl>
-    </div>
-
-    <div class="doc1991" data-page="hyper">
-      <h1>What is HyperText</h1>
-      <p>Hypertext is text which is not constrained to be read in a line.</p>
-      <p>A link is a promise between two documents, made by whoever wrote the first one. Nobody ranks the links. Nothing decides which one you should follow next.</p>
-      <p>There is no account, no profile, no feed, and no cookies yet (those arrive in 1994). A page is a document. You read it, and you leave.</p>
-      <p>See also:</p>
-      <ul>
-        <li><a data-go="overview">General overview</a></li>
-        <li><a data-go="thesis">The thesis</a></li>
-        <li><a data-go="home">Back to the top</a></li>
-      </ul>
-    </div>
-
-    <div class="doc1991" data-page="overview">
-      <h1>General Overview</h1>
-      <p>There is no &quot;top&quot; to the Web. You can look at it from many points of view. Here are some ways of looking for something.</p>
-      <dl>
-        <dt><a data-go="hyper">By following</a></dt>
-        <dd>Start anywhere, follow a link, follow another. Slow, and everything you find, you found yourself.</dd>
-        <dt><a data-go="overview">By asking</a></dt>
-        <dd>Write to the person who made a page. Later in this project that becomes a room of its own.</dd>
-        <dt><a data-go="overview">By subject</a></dt>
-        <dd>A hand-made list. Incomplete, but easy to use. Somebody had to write it.</dd>
-      </dl>
-      <p>In this version nothing is guessing what you want. Keep that in mind; it will not last.</p>
-      <p><a data-go="home">Back to the top</a> &nbsp; <a data-go="enter">Continue to 1993</a></p>
-    </div>
-
-    <div class="doc1991" data-page="thesis">
-      <h1>The Thesis</h1>
-      <blockquote>As digital environments optimize interaction for efficiency, prediction, and monetization, integral elements of human connection, expression, and authorship get removed, concealed, or flattened &mdash; because optimization has become one of the only values it&rsquo;s measured against.</blockquote>
-      <p>A timeline will appear at the top of the next screen. Each step forward changes the same rooms: what is asked of you, what is recorded, what is quietly removed. Notice what disappears, and when.</p>
-      <p><a data-go="home">Back to the top</a> &nbsp; <a data-go="enter">Continue to 1993</a></p>
     </div>
   `;
   document.body.appendChild(overlay);
 
-  function show1991(page) {
-    overlay.querySelectorAll('.doc1991').forEach((d) =>
-      d.classList.toggle('show', d.dataset.page === page));
+  const subpages = {
+    hyper: {
+      title: 'What is HyperText',
+      body: `
+        <p>Hypertext is digital text containing clickable links, 
+        known as hyperlinks, that let readers/users jump directly to other text, pages, or files</p>
+        <p>A link is a promise between two documents, made by whoever wrote the
+         first one. </p>
+        <p>There are no accounts, no profiles, no feed, and no cookies yet... 
+        those arrive later...</p>`,
+    },
+    
+    thesis: {
+      title: 'The Thesis',
+      body: `
+        <p>As digital environments optimize interaction for efficiency, prediction,
+         and monetization, integral elements of human connection, expression, and 
+         authorship get removed, concealed, or flattened, because optimization
+          has become one of the only values it&rsquo;s measured against.</p>
+        <p>A timeline appears once you continue to 1993. Each step forward changes 
+        the site. Take notice of what is asked of you, what is recorded, what is being 
+        removed.</p>`,
+    },
+  };
+  function showSubpage(page) {
+    overlay.querySelector('.doc1991').innerHTML = `
+      <h1>${page.title}</h1>
+      ${page.body}
+      <p><a data-go="home">Back to home</a></p>`;
     overlay.scrollTop = 0;
   }
+  const homeHTML = overlay.querySelector('.doc1991').innerHTML;
+  function showHome() {
+    overlay.querySelector('.doc1991').innerHTML = homeHTML;
+    overlay.scrollTop = 0;
+  }
+
   overlay.addEventListener('click', (e) => {
     const a = e.target.closest('a[data-go]');
     if (!a) return;
     e.preventDefault();
-    a.classList.add('v');
     const go = a.dataset.go;
-    if (go === 'enter') setEra('1993');
-    else show1991(go);
+    if (go === 'enter') { setEra('1993'); return; }
+    if (go === 'home') { showHome(); return; }
+    a.classList.add('v');
+    const page = subpages[go];
+    if (page) showSubpage(page);
   });
 
   /* ---------- 3. Mosaic chrome inside every window ---------- */
@@ -154,29 +158,102 @@
     });
   });
 
-  /* ---------- 3b. the 1999 "skip intro" splash ---------- */
-  const splash = document.createElement('div');
-  splash.id = 'era1999';
-  splash.innerHTML = `
-    <div class="splash-shape"><i></i><i></i></div>
-    <div class="splash-inner">
-      <h1>THIRD SPACE</h1>
-      <p>a website, made with Macromedia Flash\u2122</p>
-      <div class="splash-bar"><div></div></div>
-      <div class="splash-links"><a data-skip>skip intro</a> \u00b7 <a data-skip>enter site</a></div>
-    </div>
-    <div class="splash-note">best experienced at 800\u00d7600 &middot; get the Flash 4 plug-in</div>`;
-  document.body.appendChild(splash);
-  splash.addEventListener('click', () => hideSplash1999());
-  function showSplash1999() {
-    splash.classList.add('show');
-    clearTimeout(splash._t);
-    splash._t = setTimeout(hideSplash1999, 2800);
+/* ---------- 3b. the 1999 splash (long preloader) ---------- */
+const splash = document.createElement('div');
+splash.id = 'era1999';
+splash.innerHTML = `
+  <div class="s99-swirl"></div>
+  <div class="s99-lines"></div>
+    <svg class="s99-geo" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+    <g class="g-t">
+      <path d="M180 330H1000 M120 372H1000 M300 392H1000 M420 420H1000 M560 445H1000 M240 478H1000 M650 500H1000 M500 540H1000 M380 566H1000 M720 140V330 M760 200V470 M805 160V400 M850 260V600 M905 120V380 M945 300V600 M980 180V520 M690 380V600 M880 330V470 M610 420V600"/>
+      <path d="M20 28H250 M250 36H500 M360 0V34 M330 0V22 M330 22H380 M330 10H420"/>
+      <rect x="640" y="520" width="120" height="80"/>
+      <rect x="790" y="545" width="95" height="55"/>
+      <rect x="715" y="395" width="60" height="75"/>
+    </g>
+    <g class="g-m">
+      <path d="M400 360H1000 M520 405H1000 M610 465H1000 M350 515H1000 M700 300H1000 M590 575H1000 M740 250V430 M830 380V600 M920 200V330 M965 420V600 M660 440V560"/>
+      <path d="M250 14V36 M210 8H300"/>
+    </g>
+    <g class="g-k">
+      <path d="M300 350H1000 M975 330V600 M770 250V345 M870 420V560 M560 478V600"/>
+    </g>
+  </svg>
+  <div class="s99-band"></div>
+  <div class="s99-mark">third space</div>
+  <div class="s99-burst">${[0,45,90,135,180,225,270,315].map(a => `<i style="--a:${a}deg"></i>`).join('')}</div>
+  <div class="s99-pills">
+  <img class="s99-pill" src="assets/1999/pill_1.png" alt="" style="--x:10%; --y:34%; --w:var(--u); --rot:-6deg; --d:.3s">
+  <img class="s99-pill" src="assets/1999/pill_2.png" alt="" style="--x:32%; --y:27%; --w:calc(var(--u)*.72); --rot:-4deg; --d:.8s">
+  <img class="s99-pill" src="assets/1999/pill_3.png" alt="" style="--x:47%; --y:20%; --w:calc(var(--u)*.52); --rot:-2deg; --d:1.3s">
+  <img class="s99-pill" src="assets/1999/pill_4.png" alt="" style="--x:58%; --y:16%; --w:calc(var(--u)*.36); --rot:0deg; --d:1.8s">
+</div>
+  <div class="s99-copy">
+    <div class="s99-tag">a website, made with Macromedia Flash\u2122</div>
+    <p>this site follows the web as it changes over time. each era you visit asks something different of you.
+       please wait while your experience is prepared.</p>
+  </div>
+  <div class="s99-load">
+    <div class="s99-status">initializing...</div>
+    <div class="s99-bar"><div class="s99-fill"></div></div>
+    <div class="s99-pct">0%</div>
+    <a class="s99-enter">enter site</a>
+  </div>
+  <div class="s99-note">best experienced at 800\u00d7600 &middot; get the Flash 4 plug-in</div>`;
+document.body.appendChild(splash);
+
+// [ms, percent] checkpoints: stalls and jumps so it feels like a real preloader.
+// Change the last time value to make the whole wait longer or shorter.
+const SPLASH_STEPS = [[0,0],[900,8],[2000,27],[3200,30],[4600,63],[5800,66],[7600,100]];
+const SPLASH_MSGS = [[0,'initializing...'],[1200,'loading assets...'],[2800,'connecting to server...'],
+                     [4400,'building your profile...'],[6000,'optimizing your experience...']];
+const sFill = splash.querySelector('.s99-fill');
+const sPct = splash.querySelector('.s99-pct');
+const sStatus = splash.querySelector('.s99-status');
+let splashStart = 0, splashRaf = null, splashReady = false;
+
+function splashPercent(t) {
+  for (let i = 1; i < SPLASH_STEPS.length; i++) {
+    const [t1, p1] = SPLASH_STEPS[i];
+    if (t <= t1) {
+      const [t0, p0] = SPLASH_STEPS[i - 1];
+      return p0 + (p1 - p0) * ((t - t0) / (t1 - t0));
+    }
   }
-  function hideSplash1999() {
-    splash.classList.remove('show');
-    clearTimeout(splash._t);
+  return 100;
+}
+function tickSplash() {
+  const t = performance.now() - splashStart;
+  const p = splashPercent(t);
+  sFill.style.width = p + '%';
+  sPct.textContent = Math.floor(p) + '%';
+  sStatus.textContent = SPLASH_MSGS.filter((m) => t >= m[0]).pop()[1];
+  if (p >= 100) {
+    splashReady = true;
+    splash.classList.add('ready');
+    sStatus.textContent = 'ready.';
+    return;
   }
+  splashRaf = requestAnimationFrame(tickSplash);
+}
+function showSplash1999() {
+  cancelAnimationFrame(splashRaf);
+  splashReady = false;
+  splash.classList.remove('show', 'ready', 'play');
+  void splash.offsetWidth;                 // restart the CSS animations
+  splash.classList.add('show', 'play');
+  splashStart = performance.now();
+  tickSplash();
+}
+function hideSplash1999() {
+  cancelAnimationFrame(splashRaf);
+  splash.classList.remove('show', 'ready', 'play');
+  if (currentEra === '1999') {             // pop-ups start once the visitor is in
+    for (let i = 0; i < 2; i++) setTimeout(spawnPopup, 1500 + i * 900);
+  }
+}
+splash.addEventListener('click', () => { if (splashReady) hideSplash1999(); });
 
   /* ---------- 3c. portal chrome + hit counter for every window ---------- */
   let dcHits = 4812;
@@ -227,6 +304,80 @@
     renderReceipt();
   });
 
+  /* ---------- 4b. keep icons clear of the era bar + note ---------- */
+const eraBarEl = document.getElementById('eraBar');
+const eraNoteEl = document.getElementById('eraNote');
+function syncChrome() {
+  const barH = eraBarEl.offsetHeight;
+  const root = document.documentElement.style;
+  root.setProperty('--bar-h', barH + 'px');
+  root.setProperty('--chrome-h', (barH + eraNoteEl.offsetHeight + 16) + 'px');
+}
+window.addEventListener('resize', syncChrome);
+window.addEventListener('load', syncChrome);
+
+/* ---------- 4c. windows open centered, and can't hide under the banner ---------- */
+const chromeBottom = () => eraBarEl.offsetHeight + eraNoteEl.offsetHeight;
+
+function placeWindow(w) {
+  syncChrome();
+  const minTop = chromeBottom() + 10;
+  const openCount = document.querySelectorAll('.window.open').length;
+  const nudge = ((openCount - 1) % 6) * 26;            // cascade so stacked windows don't overlap exactly
+  const availH = window.innerHeight - minTop - 44;     // 44 = taskbar + breathing room
+  const left = (window.innerWidth - w.offsetWidth) / 2 + nudge;
+  const top = minTop + Math.max(0, (availH - w.offsetHeight) / 2) + nudge;
+  w.style.left = Math.max(0, left) + 'px';
+  w.style.top = Math.max(minTop, top) + 'px';
+}
+
+// center a window the first time it opens (not when you click its taskbar tab)
+const _openWindow = window.openWindow;
+window.openWindow = function (id) {
+  const w = document.getElementById(id);
+  const wasOpen = w.classList.contains('open');
+  _openWindow(id);
+  if (!wasOpen) placeWindow(w);
+};
+
+// pull any open window back down if the banner grows (era change / resize)
+function clampOpenWindows() {
+  const minTop = chromeBottom() + 4;
+  document.querySelectorAll('.window.open').forEach((w) => {
+    if (parseFloat(w.style.top) < minTop) w.style.top = minTop + 'px';
+  });
+}
+window.addEventListener('resize', () => { syncChrome(); clampOpenWindows(); });
+
+// dragging can't push a title bar under the banner
+window.onDrag = function (e) {
+  if (!dragState) return;
+  const w = document.getElementById(dragState.id);
+  const left = e.clientX - dragState.offX;
+  const top = e.clientY - dragState.offY;
+  w.style.left = Math.max(-100, Math.min(left, window.innerWidth - 60)) + 'px';
+  w.style.top = Math.max(chromeBottom() + 4, Math.min(top, window.innerHeight - 80)) + 'px';
+};
+
+// pop-ups: drag by the red header
+document.getElementById('popupLayer').addEventListener('pointerdown', (e) => {
+  const head = e.target.closest('.popup-head');
+  if (!head || e.target.closest('.popup-x')) return;
+  const p = head.parentElement;
+  const r = p.getBoundingClientRect();
+  const ox = e.clientX - r.left, oy = e.clientY - r.top;
+  const move = (ev) => {
+    p.style.left = Math.max(0, Math.min(ev.clientX - ox, window.innerWidth - 60)) + 'px';
+    p.style.top = Math.max(chromeBottom() + 4, Math.min(ev.clientY - oy, window.innerHeight - 60)) + 'px';
+  };
+  const up = () => {
+    window.removeEventListener('pointermove', move);
+    window.removeEventListener('pointerup', up);
+  };
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', up);
+});
+
   /* ---------- 5. wrap setEra ---------- */
   const _setEra = window.setEra;
   window.setEra = function (key) {
@@ -234,18 +385,21 @@
       snap = { c: Trace.totalClicks, f: Trace.fieldsFilled };
     }
     _setEra(key);
-    if (key === '1991') show1991('home');
+    syncChrome();
+    clampOpenWindows();
+    if (key === '1991') showHome();
     if (key === '1993') {
       const home = document.getElementById('win-home');
       if (!home.classList.contains('open')) openWindow('win-home');
     }
     if (key === '1999') {
-      showSplash1999();
-      for (let i = 0; i < 2; i++) setTimeout(spawnPopup, 3200 + i * 900);
-    }
+  showSplash1999();
+  // (removed) for (let i = 0; i < 2; i++) setTimeout(spawnPopup, 3200 + i * 900);
+}
     renderReceipt();
   };
 
   /* ---------- boot: the experience starts in 1991 ---------- */
+  placeWindow(document.getElementById('win-home'));
   setEra('1991');
 })();

@@ -44,7 +44,7 @@ function renderReceipt() {
   if (!list) return;
   const rows = Trace.entries.slice(-40).slice().reverse();
   list.innerHTML = rows.length
-    ? rows.map(e => `<div class="receipt-line"><span>${e.label}</span><span>${e.value} \u00b7 ${e.t}</span></div>`).join('')
+    ? rows.map(e => `<div class="receipt-line"><span>${e.label}</span><span>${e.value} · ${e.t}</span></div>`).join('')
     : '<div class="receipt-line"><span>nothing logged yet</span><span></span></div>';
   const score = goodBuyerScore();
   const totalEl = document.getElementById('receiptTotal');
@@ -72,23 +72,23 @@ document.addEventListener('click', (e) => {
 ===================================================== */
 const ERAS = [
   { key: '1996', label: '1996', name: 'the early web',
-    note: 'no cookie banners, because there was nothing to disclose \u2014 sites rarely tracked you. but almost nothing was moderated either: anyone could publish anything, for better and worse.' },
+    note: 'no cookie banners, because there was nothing to disclose — sites rarely tracked you. but almost nothing was moderated either: anyone could publish anything, for better and worse.' },
   { key: '2004', label: '2004', name: 'web 2.0',
-    note: 'platforms start remembering you between visits. the first pop-ups appear \u2014 mostly ads, still easy to close. moderation is manual and inconsistent.' },
+    note: 'platforms start remembering you between visits. the first pop-ups appear — mostly ads, still easy to close. moderation is manual and inconsistent.' },
   { key: '2010', label: '2010', name: 'social & mobile',
-    note: 'accounts, feeds, and terms of service nobody reads. your activity starts being logged behind the scenes \u2014 not just what you type, but what you click and how long you stay.' },
+    note: 'accounts, feeds, and terms of service nobody reads. your activity starts being logged behind the scenes — not just what you type, but what you click and how long you stay.' },
   { key: '2016', label: '2016', name: 'the algorithmic feed',
     note: "ranking replaces browsing. platforms increasingly decide what you see, and quietly hide the options they've decided you don't need. pop-ups multiply." },
   { key: '2024', label: '2024', name: 'optimized & monetized',
-    note: 'every interaction is a data point and a monetization opportunity. friction is treated as a bug to be engineered away \u2014 including the friction that used to mean something.' },
+    note: 'every interaction is a data point and a monetization opportunity. friction is treated as a bug to be engineered away — including the friction that used to mean something.' },
 ];
 
 const popupCopy = [
-  { title: 'you are visitor #4,812!', body: 'CONGRATULATIONS \u2014 you\u2019ve been selected for a personalized experience. click to claim it.' },
-  { title: 'before you go...', body: 'we noticed you were about to leave. here\u2019s something to keep you here a little longer.' },
-  { title: 'recommended for you', body: 'based on your activity on this page, we think you\u2019ll love this.' },
-  { title: 'your data, working for you', body: 'we\u2019ve used your clicks to build a profile. it\u2019s already helping advertisers reach you more efficiently.' },
-  { title: 'don\u2019t miss out', body: '3 other people are looking at this page right now.' },
+  { title: 'you are visitor #4,812!', body: 'CONGRATULATIONS — you’ve been selected for a personalized experience. click to claim it.' },
+  { title: 'before you go...', body: 'we noticed you were about to leave. here’s something to keep you here a little longer.' },
+  { title: 'recommended for you', body: 'based on your activity on this page, we think you’ll love this.' },
+  { title: 'your data, working for you', body: 'we’ve used your clicks to build a profile. it’s already helping advertisers reach you more efficiently.' },
+  { title: 'don’t miss out', body: '3 other people are looking at this page right now.' },
   { title: 'quick survey (10 seconds)', body: 'how is your experience so far? this will not change anything except our engagement metrics.' },
 ];
 
@@ -102,13 +102,13 @@ function spawnPopup() {
   const c = popupCopy[Math.floor(Math.random() * popupCopy.length)];
   const div = document.createElement('div');
   div.className = 'popup-ad';
-  const top = 70 + Math.random() * 260;
-  const maxLeft = Math.max(20, window.innerWidth - 260);
-  const left = 20 + Math.random() * maxLeft;
+  const minTop = document.getElementById('eraBar').offsetHeight + document.getElementById('eraNote').offsetHeight + 10;
+const top = minTop + Math.random() * Math.max(0, window.innerHeight - minTop - 260);
+const left = 20 + Math.random() * Math.max(0, window.innerWidth - 330);
   div.style.top = top + 'px';
   div.style.left = left + 'px';
   div.innerHTML = `
-    <div class="popup-head"><span>ad</span><button class="popup-x" title="close">\u00d7</button></div>
+    <div class="popup-head"><span>ad</span><button class="popup-x" title="close">×</button></div>
     <div class="popup-body"><b>${c.title}</b><p>${c.body}</p>
       <button class="popup-accept">yes, optimize me</button>
     </div>`;
@@ -125,7 +125,7 @@ function spawnPopup() {
   };
   layer.appendChild(div);
   Trace.popupsSeen += 1;
-  logReceipt('a pop-up was shown to you', 'silent \u00b7 not itemized above');
+  logReceipt('a pop-up was shown to you', 'silent · not itemized above');
 }
 
 function reschedulePopups() {
@@ -157,8 +157,8 @@ function setEra(key) {
 ===================================================== */
 const ghostTexts = [
   'under construction', 'sign my guestbook', 'you are visitor #',
-  'best viewed at 800x600', 'webring: next site \u00bb', 'this page last updated 1999',
-  '\ud83d\uddbc image not found', 'hit counter loading...', 'netscape recommended',
+  'best viewed at 800x600', 'webring: next site »', 'this page last updated 1999',
+  '🖼 image not found', 'hit counter loading...', 'netscape recommended',
   'click here to enter', 'add me to your links page',
 ];
 const desktop = document.getElementById('desktop');
@@ -173,16 +173,16 @@ for (let i = 0; i < 10; i++) {
 }
 
 const icons = [
-  { id: 'win-home', glyph: '\ud83c\udfe0', label: 'welcome.htm', top: 20, left: 20 },
-  { id: 'win-data', glyph: '\ud83d\uddc3', label: 'the data room', top: 126, left: 20 },
-  { id: 'win-mail', glyph: '\u2709', label: 'correspondence', top: 232, left: 20 },
-  { id: 'win-gallery', glyph: '\ud83d\udd8c', label: 'signed-work', top: 338, left: 20 },
-  { id: 'win-receipt', glyph: '\ud83e\uddfe', label: 'your receipt', top: 444, left: 20 },
-  { id: 'win-personal', glyph: '\ud83e\uddd1', label: 'your place', top: 20, left: 110 },
-  { id: 'win-maze', glyph: '\ud83d\udd0d', label: 'find it', top: 126, left: 110 },
-  { id: 'win-whoknows', glyph: '\ud83d\udde3', label: 'who knows?', top: 232, left: 110 },
-  { id: 'win-machine', glyph: '\ud83e\udd16', label: 'machine between us', top: 338, left: 110 },
-  { id: 'win-social', glyph: '\ud83d\udd78', label: 'our data', top: 444, left: 110 },
+  { id: 'win-home', glyph: '🏠', label: 'welcome.html', top: 20, left: 20 },
+  { id: 'win-data', glyph: '🗃', label: 'the data room', top: 126, left: 20 },
+  { id: 'win-mail', glyph: '✉', label: 'correspondence', top: 232, left: 20 },
+  { id: 'win-gallery', glyph: '🖌', label: 'signed-work', top: 338, left: 20 },
+  { id: 'win-receipt', glyph: '🧾', label: 'your receipt', top: 444, left: 20 },
+  { id: 'win-personal', glyph: '🧑', label: 'your place', top: 20, left: 110 },
+  { id: 'win-maze', glyph: '🔍', label: 'find it', top: 126, left: 110 },
+  { id: 'win-whoknows', glyph: '🗣', label: 'who knows?', top: 232, left: 110 },
+  { id: 'win-machine', glyph: '🤖', label: 'machine between us', top: 338, left: 110 },
+  { id: 'win-social', glyph: '🕸', label: 'our data', top: 444, left: 110 },
 ];
 icons.forEach(ic => {
   const div = document.createElement('div');
@@ -196,11 +196,11 @@ icons.forEach(ic => {
 
 let zTop = 10;
 const windowTitles = {
-  'win-home': 'welcome.htm',
+  'win-home': 'welcome.html',
   'win-data': 'the data room',
   'win-mail': 'correspondence',
   'win-gallery': 'signed-work',
-  'win-about': 'about.htm',
+  'win-about': 'about.html',
   'win-receipt': 'your receipt',
   'win-personal': 'your place',
   'win-maze': 'find it',
@@ -291,16 +291,18 @@ document.addEventListener('click', (e) => {
 function updateTrace() {
   const el = document.getElementById('traceBox');
   if (!el) return;
-  const parts = [];
-  parts.push(Trace.dataMailed ? 'you traded a week of data in the data room.' : 'you haven\'t traded anything in the data room yet.');
-  parts.push(Trace.lettersSentCount > 0 ? `you've sent ${Trace.lettersSentCount} letter${Trace.lettersSentCount === 1 ? '' : 's'} that took real time to write.` : 'you haven\'t written a letter yet.');
-  parts.push(Trace.worksSignedCount > 0 ? `you've signed ${Trace.worksSignedCount} piece${Trace.worksSignedCount === 1 ? '' : 's'} of visible work.` : 'you haven\'t signed anything in the gallery yet.');
-  parts.push(`the era is set to ${currentEra} \u2014 that alone has changed ${Trace.popupsSeen} pop-up${Trace.popupsSeen === 1 ? '' : 's'} worth of what this page does to you.`);
-  parts.push(`you've been logged ${Trace.totalClicks} time${Trace.totalClicks === 1 ? '' : 's'} in the background; the receipt room only itemizes ${Trace.entries.length} of those.`);
+  const s = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+  const parts = [
+    Trace.dataMailed ? 'You traded a week of data in the data room!' : "You haven't traded anything in the data room yet.",
+    Trace.lettersSentCount > 0 ? `You've sent ${s(Trace.lettersSentCount, 'letter')} that took real time to write.` : "You haven't written a letter yet.",
+    Trace.worksSignedCount > 0 ? `You've signed ${s(Trace.worksSignedCount, 'piece')} of visible work.` : "You haven't signed anything in the gallery yet.",
+    `The era is set to ${currentEra}, and that alone has changed ${s(Trace.popupsSeen, 'pop-up')} worth of what this page does to you.`,
+    `You've been logged ${s(Trace.totalClicks, 'time')} in the background, and the receipt room only itemizes ${Trace.entries.length} of those.`,
+  ];
   const doneCount = [Trace.dataMailed, Trace.lettersSentCount > 0, Trace.worksSignedCount > 0].filter(Boolean).length;
   let closing = '';
-  if (doneCount === 3) closing = 'you\'ve given something in every room. does it feel like one place, or three separate favors \u2014 and does the era you\'re viewing it in change that answer?';
-  else if (doneCount === 0) closing = 'nothing given yet \u2014 every room here asks for something before it gives something back, whether or not it says so.';
+  if (doneCount === 3) closing = "You've given something in every room. Does it feel like one place, or three separate favors? And does the era you're viewing it in change your answer?";
+  else if (doneCount === 0) closing = 'Nothing given yet. Every room here asks for something before it gives something back, whether it says so or not.';
   el.innerHTML = parts.map(p => `<div class="trace-line">${p}</div>`).join('') + `<div style="margin-top:6px; font-style:italic; font-size:11px;">${closing}</div>`;
 }
 
@@ -322,13 +324,13 @@ function mailData() {
   if (Trace.dataMailed) return;
   const colored = myLevels.filter(l => l > 0).length;
   if (colored === 0) {
-    document.getElementById('dataStatus').textContent = 'color in at least one square first.';
+    document.getElementById('dataStatus').textContent = 'Color in at least one square first!';
     return;
   }
   Trace.dataMailed = true;
   Trace.fieldsFilled += 1;
   document.getElementById('mailDataBtn').disabled = true;
-  document.getElementById('dataStatus').textContent = 'sent. unlocking...';
+  document.getElementById('dataStatus').textContent = 'Sent! Unlocking...';
   document.getElementById('lockedMsg').style.display = 'none';
   const reveal = document.getElementById('partnerReveal');
   const pg = document.getElementById('partnerGrid');
@@ -346,11 +348,11 @@ function mailData() {
 
 /* ---------------- CORRESPONDENCE ROOM ---------------- */
 const voices = [
-  'still writing?',
-  'you can slow down. no one\'s waiting on a timer but you.',
-  'once this goes, it\'s gone. that\'s the whole point.',
-  'there\'s no read receipt coming, either way.',
-  'say the true thing, not the fast thing.',
+  'Still writing?',
+  'Take your time. Nobody is waiting on a timer but you.',
+  "Once this goes, it's gone. That's kind of the point.",
+  'No read receipt is coming either way. Spooky, right?',
+  'Say the true thing, not the fast thing.',
 ];
 let mailUnlockTimer = null;
 function onMailInput() {
@@ -364,15 +366,15 @@ function onMailInput() {
   voiceEl.textContent = voices[Math.floor(Math.random() * voices.length)];
   const waitMs = Math.min(1000 + text.length * 60, 8000);
   let remaining = Math.ceil(waitMs / 1000);
-  timerEl.textContent = `still forming... ${remaining}s`;
+  timerEl.textContent = `Letting it simmer... ${remaining}s`;
   const iv = setInterval(() => {
     remaining -= 1;
     if (remaining <= 0) {
       clearInterval(iv);
-      timerEl.textContent = 'ready when you are.';
+      timerEl.textContent = 'Ready when you are!';
       btn.disabled = false;
     } else {
-      timerEl.textContent = `still forming... ${remaining}s`;
+      timerEl.textContent = `Letting it simmer... ${remaining}s`;
     }
   }, 1000);
 }
@@ -384,17 +386,18 @@ function sendMail() {
   const div = document.createElement('div');
   div.className = 'sentmsg';
   div.innerHTML = `<div>${text.replace(/</g, '&lt;')}</div>
-    <div class="meta">sent \u00b7 unread status unknown \u00b7 cannot be edited</div>`;
+    <div class="meta">sent · who knows if it's been read · no edits allowed</div>`;
   list.prepend(div);
   textEl.value = '';
   document.getElementById('sendBtn').disabled = true;
-  document.getElementById('mailVoice').textContent = 'it\'s on its way now.';
+  document.getElementById('mailVoice').textContent = "It's on its way now!";
   document.getElementById('mailTimer').textContent = '';
   Trace.lettersSentCount += 1;
   Trace.fieldsFilled += 1;
   logReceipt('sent a letter (' + text.length + ' chars)', '+1 writing sample');
   updateTrace();
 }
+
 
 /* ---------------- SIGNED-WORK ROOM ---------------- */
 let draftCount = 0;
@@ -407,22 +410,22 @@ function saveDraft() {
   const log = document.getElementById('draftLog');
   const entry = document.createElement('div');
   const t = new Date();
-  entry.textContent = `draft ${draftCount} \u00b7 ${t.toLocaleTimeString()} \u00b7 ${text.length} characters`;
+  entry.textContent = `draft ${draftCount} · ${t.toLocaleTimeString()} · ${text.length} characters`;
   log.appendChild(entry);
   logReceipt('saved a draft', '+1 revision history');
 }
 function signWork() {
   const text = document.getElementById('workText').value;
-  if (!text.trim()) { alert('write something first.'); return; }
+  if (!text.trim()) { alert('Write something first!'); return; }
   const minutes = firstDraftTime ? Math.max(1, Math.round((new Date() - firstDraftTime) / 60000)) : 1;
   const container = document.getElementById('finalPiece');
   container.innerHTML = `
     <div class="final-piece">
       <div>${text.replace(/</g, '&lt;').replace(/\n/g, '<br>')}</div>
       <div class="signature">
-        hand-signed \u00b7 ${draftCount || 1} draft${draftCount === 1 ? '' : 's'} over ~${minutes} minute${minutes === 1 ? '' : 's'} of visible work
+        hand-signed · ${draftCount || 1} draft${draftCount === 1 ? '' : 's'} over ~${minutes} minute${minutes === 1 ? '' : 's'} of visible work
       </div>
-      <div class="not-for-sale">not for sale \u2014 provenance only</div>
+      <div class="not-for-sale">not for sale, just proof it's yours</div>
     </div>`;
   Trace.worksSignedCount += 1;
   Trace.fieldsFilled += 1;
@@ -492,7 +495,7 @@ function renderFindings() {
   const el = document.getElementById('findings');
   if (!el) return;
   if (used.length === 0) { el.textContent = ''; return; }
-  el.textContent = `you filled in ${used.length} of ${available.length} possible blocks. is that authorship, or just enough effort for it to feel like yours? worth asking yourself honestly.`;
+  el.textContent = `You filled in ${used.length} of ${available.length} possible blocks. Is that authorship, or just enough effort to feel like it's yours? Worth an honest think!`;
 }
 function setTab(which) {
   document.getElementById('tabBuild').classList.toggle('active', which === 'build');
@@ -504,7 +507,7 @@ function setTab(which) {
 function renderPreview() {
   const used = Object.keys(blocks).filter(k => blocks[k] && blocks[k].trim());
   const el = document.getElementById('previewBody');
-  if (used.length === 0) { el.innerHTML = '<em>nothing here yet.</em>'; return; }
+  if (used.length === 0) { el.innerHTML = '<em>Nothing here yet.</em>'; return; }
   el.innerHTML = used.map(id => {
     const meta = available.find(a => a.id === id);
     const val = blocks[id].replace(/</g, '&lt;').replace(/\n/g, '<br>');
@@ -531,7 +534,7 @@ function renderStandardCard() {
   document.getElementById('bioCount').textContent = bio.length + '/80';
   document.getElementById('standardCard').innerHTML = `
     <div class="gname">${name.replace(/</g, '&lt;')}</div>
-    <div class="gmeta">${age || 'age range not set'} \u00b7 ${cat || 'category not set'}</div>
+    <div class="gmeta">${age || 'age range not set'} · ${cat || 'category not set'}</div>
     <div class="gbio">${bio ? bio.replace(/</g, '&lt;') : 'no bio provided'}</div>
   `;
   syncCompare();
@@ -602,13 +605,13 @@ function renderSeamful() {
   const q = (document.getElementById('seamfulSearchBox').value || '').toLowerCase();
   const pool = q ? optimizedItems.filter(i => i.title.toLowerCase().includes(q)) : optimizedItems;
   const el = document.getElementById('seamfulResult');
-  if (pool.length === 0) { el.innerHTML = '<div class="uncertainty-box">nothing matches that. the system has no guess.</div>'; return; }
+  if (pool.length === 0) { el.innerHTML = '<div class="uncertainty-box">Nothing matches that. The system has no guess!</div>'; return; }
   const top = pool[0];
   const rest = pool.slice(1);
   el.innerHTML = `
-    <div class="uncertainty-box">the system is <b>${top.confidence}% confident</b> this is what you want. it is showing you that number instead of hiding it.</div>
+    <div class="uncertainty-box">The system is <b>${top.confidence}% confident</b> this is what you want, and it's showing you that number instead of hiding it.</div>
     <div class="items-optimized"><div class="item" onclick="found(${top.match})">${top.title} <span style="float:right; font-size:11px; color:#000080;">${top.confidence}%</span></div></div>
-    ${rest.length ? '<div style="font-size:11px; color:#666; margin:8px 0 4px;">other possibilities the system considered:</div>' : ''}
+    ${rest.length ? '<div style="font-size:11px; color:#666; margin:8px 0 4px;">Other things the system considered:</div>' : ''}
     <div class="items-optimized">${rest.map(i => `<div class="item" onclick="found(${i.match})">${i.title} <span style="float:right; font-size:11px; color:#666;">${i.confidence}%</span></div>`).join('')}</div>
   `;
 }
@@ -647,20 +650,21 @@ function found(match) {
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
   const box = document.getElementById('resultBox');
   if (match) {
-    box.innerHTML = `<b>found it.</b><br>"The Lighthouse at the End of the Road" \u2014 a short story about a keeper who stayed after the light was automated.`;
+    box.innerHTML = `<b>Found it!</b><br>"The Lighthouse at the End of the Road," a short story about a keeper who stayed after the light was automated.`;
   } else {
-    box.innerHTML = `<b>not quite.</b> that wasn't the lighthouse story. try again.`;
+    box.innerHTML = `<b>Not quite!</b> That wasn't the lighthouse story. Try again.`;
   }
   box.classList.add('show');
   if (match) {
     log.push({ mode: searchMode, clicks, seconds: elapsed });
     document.getElementById('statsBox').innerHTML =
       `this attempt (${searchMode}): ${clicks} clicks, ${elapsed}s.` +
-      (log.length > 1 ? `<br>compare: ` + log.map(l => `${l.mode}: ${l.clicks} clicks / ${l.seconds}s`).join(' \u00b7 ') : '');
+      (log.length > 1 ? `<br>compare: ` + log.map(l => `${l.mode}: ${l.clicks} clicks / ${l.seconds}s`).join(' · ') : '');
     document.getElementById('reflectBox').style.display = 'block';
     logReceipt('completed the task (' + searchMode + ' mode)', clicks + ' clicks');
   }
 }
+
 function tagFriction(tag, btn) {
   document.querySelectorAll('#frictionTags button').forEach(b => b.classList.remove('picked'));
   btn.classList.add('picked');
@@ -687,34 +691,34 @@ const disagreePairs = [
   { a: 'Aiko', b: 'Lucia', topic: 'how patient you need to be in the kitchen' },
 ];
 const canned = {
-  'Mina': "sure \u2014 start with a webring. don't overthink your homepage, just make it. (Jon disagrees with me on this, for what it's worth.)",
-  'Jon': "honestly? I think Mina's wrong on this one \u2014 webrings are cute but they just slow you down. go straight to the wayback machine.",
+  'Mina': "Sure, start with a webring. Don't overthink your homepage, just make it. (Jon disagrees with me on this, for what it's worth.)",
+  'John': "Honestly? I think Mina's wrong on this one. Webrings are cute but they just slow you down. Go straight to the wayback machine.",
   'Priya': "go out at dawn. bring coffee. don't expect much the first few times.",
-  'Deshawn': "there's no right way to write about it. just start with one true detail.",
-  'Aiko': "take your time \u2014 ferment it slow, taste it every day, let it tell you when it's ready. (Lucia will tell you this is overkill. it's not.)",
+  'Steve': "there's no right way to write about it. just start with one true detail.",
+  'Aiko': "Take your time. Ferment it slow, taste it every day, let it tell you when it's ready. (Lucia will tell you this is overkill. It's not.)",
   'Sam': "depends what you're building. what are you actually trying to make?",
-  'Okafor': "i'll send my reading list. read the introductions first, always.",
-  'Mara': "i don't really have advice. i just keep making the thing.",
-  'Theo': "start with one song you can't listen to yet. build outward from there.",
-  'Lucia': "honestly, Aiko takes way too long with everything. taste it once, trust yourself, move on. butter, not oil, though \u2014 she's right about that part.",
-  'Wren': "honestly, not really my area \u2014 ask Sam instead, they'll actually know.",
+  'Maria': "i'll send my reading list. read the introductions first, always.",
+  'Justin': "i don't really have advice. i just keep making the thing.",
+  'Mario': "start with one song you can't listen to yet. build outward from there.",
+  'Lucia': "Honestly, Aiko takes way too long with everything. Taste it once, trust yourself, move on. Butter, not oil, though. She's right about that part.",
+  'Tina': "Honestly, not really my area. Ask Sam instead, they'll actually know.",
 };
 let askedThisSearch = new Set();
 function search() {
   const q = document.getElementById('q').value.toLowerCase().trim();
   const results = document.getElementById('results');
   askedThisSearch = new Set();
-  if (!q) { results.innerHTML = '<div class="empty">ask about something.</div>'; return; }
+  if (!q) { results.innerHTML = '<div class="empty">Ask about something!</div>'; return; }
   const scored = people.map(p => {
     const score = p.tags.reduce((acc, t) => acc + (q.includes(t) || t.includes(q) ? 1 : 0), 0);
     return { p, score };
   }).filter(s => s.score > 0).sort((a, b) => b.score - a.score);
   if (scored.length === 0) {
-    results.innerHTML = `<div class="empty">no one here knows about "${q}" yet. that's honest, at least \u2014 better than a page of forced results.</div>`;
+    results.innerHTML = `<div class="empty">Nobody here knows about "${q}" yet. That's honest, at least, and better than a page of forced results.</div>`;
     logReceipt('searched: "' + q + '" (no match)', '+1 query log');
     return;
   }
-  const intro = `<div class="uncertainty-box">I don't know for certain. here ${scored.length === 1 ? 'is one person' : 'are ' + Math.min(scored.length, 4) + ' people'} who might \u2014 some of them may not agree with each other.</div>`;
+  const intro = `<div class="uncertainty-box">I don't know for certain, but here ${scored.length === 1 ? 'is one person' : 'are ' + Math.min(scored.length, 4) + ' people'} who might. Some of them may not agree with each other!</div>`;
   results.innerHTML = intro + scored.slice(0, 4).map(s => `
     <div class="person-card">
       <div class="name">${s.p.name}${s.p.weak ? ' <span style="font-size:10px; color:#999;">(unsure this is a good match)</span>' : ''}</div>
@@ -742,7 +746,7 @@ function checkForDisagreement() {
       div.className = 'disagree-box';
       div.id = 'belief-' + pair.a + '-' + pair.b;
       div.innerHTML = `
-        <div style="margin-bottom:8px;">${pair.a} and ${pair.b} disagree about ${pair.topic}. there's no way to verify either from here \u2014 who do you believe?</div>
+        <div style="margin-bottom:8px;">${pair.a} and ${pair.b} disagree about ${pair.topic}. Neither can be checked from here, so who do you believe?</div>
         <button class="askbtn" onclick="pickBelief('${pair.a}','${pair.b}', this)">${pair.a}</button>
         <button class="askbtn" onclick="pickBelief('${pair.b}','${pair.a}', this)">${pair.b}</button>
         <button class="askbtn" onclick="pickBelief('neither','', this)">genuinely not sure</button>
@@ -757,8 +761,8 @@ function pickBelief(chosen, other, btn) {
   box.querySelectorAll('button').forEach(b => b.disabled = true);
   const resultEl = box.querySelector('.belief-result');
   resultEl.textContent = chosen === 'neither'
-    ? "you're staying uncertain. that's a legitimate place to land \u2014 not every disagreement needs resolving."
-    : `you picked ${chosen}. that's not verified, just noted \u2014 worth noticing what made you trust them over ${other}.`;
+    ? "You're staying uncertain, and that's a totally legit place to land. Not every disagreement needs resolving!"
+    : `You picked ${chosen}. That's not verified, just noted. Worth noticing what made you trust them over ${other}!`;
 }
 
 /* ---------------- THE MACHINE BETWEEN US ---------------- */
@@ -786,21 +790,21 @@ function machineEdit(text) {
   const lower = text.toLowerCase();
   if (lower.includes("don't really know how to say this") || lower.includes('i guess') || lower.startsWith('um')) {
     const revised = "I want to be honest with you: I'm feeling upset and I think we should talk about it.";
-    return { revised, removed: ['hesitation ("I don\'t really know how to say this")', 'the hedge "I think" softening your own feeling'], inferred: 'inferred you were nervous to bring this up, and that the underlying feeling was clear even if the wording wasn\'t.', predictedEffect: 'they will likely read this as direct and easy to respond to \u2014 clearer, but with no sign you were nervous.', giveUp: 'the visible hesitation itself \u2014 which may have told them something true about how hard this was to say.', revisedLabel: 'removed hesitation, increased confidence, clarified the emotion' };
+    return { revised, removed: ['hesitation ("I don\'t really know how to say this")', 'the hedge "I think" softening your own feeling'], inferred: 'inferred you were nervous to bring this up, and that the underlying feeling was clear even if the wording wasn\'t.', predictedEffect: 'they will likely read this as direct and easy to answer. Clearer, but with no sign you were nervous.', giveUp: 'the visible hesitation itself, which may have told them something true about how hard this was to say.', revisedLabel: 'removed hesitation, increased confidence, clarified the emotion' };
   }
   if (lower.includes('no') || lower.includes("can't") || lower.includes('cant') || lower.includes('busy')) {
-    return { revised: text.replace(/no\b/i, 'not right now, but').trim() + (text.endsWith('.') ? '' : '.'), removed: ['the flat "no"'], inferred: 'inferred a flat refusal here could be read as rejection rather than a simple scheduling conflict.', predictedEffect: 'they will likely feel less rejected and more like this is circumstantial, not personal.', giveUp: 'the directness of a plain "no" \u2014 the revised version asks a little more of them to read between the lines.', revisedLabel: 'softened the refusal' };
+    return { revised: text.replace(/no\b/i, 'not right now, but').trim() + (text.endsWith('.') ? '' : '.'), removed: ['the flat "no"'], inferred: 'inferred a flat refusal here could be read as rejection rather than a simple scheduling conflict.', predictedEffect: 'they will likely feel less rejected and more like this is circumstantial, not personal.', giveUp: 'the directness of a plain "no" (the revised version asks them to read between the lines a bit more).', revisedLabel: 'softened the refusal' };
   }
   if (text.length > 0 && text === text.toUpperCase() && text.length > 4) {
-    return { revised: text.charAt(0) + text.slice(1).toLowerCase(), removed: ['the all-caps emphasis'], inferred: 'inferred the capitalization would read as anger, whether or not that was intended.', predictedEffect: 'they will likely feel less confronted, and may not sense any urgency or intensity at all.', giveUp: 'whatever real intensity you meant to convey \u2014 the machine can\'t tell the difference between anger and just emphasis.', revisedLabel: 'lowered the intensity' };
+    return { revised: text.charAt(0) + text.slice(1).toLowerCase(), removed: ['the all-caps emphasis'], inferred: 'inferred the capitalization would read as anger, whether or not that was intended.', predictedEffect: 'they will likely feel less confronted, and may not sense any urgency or intensity at all.', giveUp: "whatever real intensity you meant to convey. The machine can't tell anger from plain emphasis.", revisedLabel: 'lowered the intensity' };
   }
   if (lower.includes('fine')) {
-    return { revised: text.replace(/fine/i, 'okay, actually kind of frustrated'), removed: ['the word "fine" as a stand-in for an unstated feeling'], inferred: 'inferred "fine" was likely insincere, based on common patterns in how people use that word.', predictedEffect: 'they will likely take this more seriously and probably ask a follow-up question.', giveUp: 'the option to leave things vague \u2014 sometimes "fine" is doing real, deliberate work.', revisedLabel: 'named the feeling "fine" was covering for' };
+    return { revised: text.replace(/fine/i, 'okay, actually kind of frustrated'), removed: ['the word "fine" as a stand-in for an unstated feeling'], inferred: 'inferred "fine" was likely insincere, based on common patterns in how people use that word.', predictedEffect: 'they will likely take this more seriously and probably ask a follow-up question.', giveUp: 'the option to leave things vague. Sometimes "fine" is doing real, deliberate work.', revisedLabel: 'named the feeling "fine" was covering for' };
   }
   if (!/[.!?]\s*$/.test(text.trim()) && text.trim().length > 15) {
     const t = text.trim();
     const revised = t.charAt(0).toUpperCase() + t.slice(1) + (/[,]$/.test(t) ? '' : '.');
-    return { revised, removed: ['a run-on, unpunctuated feel'], inferred: 'inferred you just typed quickly, with no particular intention behind the missing punctuation.', predictedEffect: 'no real difference \u2014 this is about as low-stakes as an edit gets.', giveUp: 'almost nothing. maybe a little of your actual, unpolished typing voice.', revisedLabel: 'added punctuation and capitalization', lowStakes: true };
+    return { revised, removed: ['a run-on, unpunctuated feel'], inferred: 'inferred you just typed quickly, with no particular intention behind the missing punctuation.', predictedEffect: 'no real difference. This is about as low-stakes as an edit gets.', giveUp: 'almost nothing. maybe a little of your actual, unpolished typing voice.', revisedLabel: 'added punctuation and capitalization', lowStakes: true };
   }
   return null;
 }
@@ -816,7 +820,7 @@ function trySend() {
       pendingText = { original: text, revised: edit.revised };
       document.getElementById('origText').textContent = text;
       document.getElementById('revText').textContent = edit.revised;
-      document.getElementById('removedText').textContent = (edit.lowStakes ? '(low-stakes) ' : '') + edit.revisedLabel + ' \u2014 removed: ' + edit.removed.join('; ');
+      document.getElementById('removedText').textContent = (edit.lowStakes ? '(low-stakes) ' : '') + edit.revisedLabel + ' — removed: ' + edit.removed.join('; ');
       document.getElementById('whyText').textContent = 'it ' + edit.inferred;
       document.getElementById('predictText').textContent = edit.predictedEffect;
       document.getElementById('giveupText').textContent = edit.giveUp;
@@ -856,12 +860,12 @@ function renderTally() {
   let note = '';
   if (total >= 3) {
     const rate = tally.accepted / total;
-    note = rate > 0.6 ? ' \u2014 you\'re accepting most of its edits as-is. worth asking why.'
-      : tally.modified > tally.accepted && tally.modified > tally.rejected ? ' \u2014 you keep meeting it halfway rather than fully accepting or rejecting.'
-      : rate < 0.3 ? ' \u2014 you\'re mostly overriding it. is it wrong, or just not you?'
-      : ' \u2014 a mix of accepting, rejecting, and rewriting.';
+    note = rate > 0.6 ? ". You're accepting most of its edits as-is. Worth asking why!"
+      : tally.modified > tally.accepted && tally.modified > tally.rejected ? ". You keep meeting it halfway instead of fully accepting or rejecting."
+      : rate < 0.3 ? ". You're mostly overriding it. Is it wrong, or just not you?"
+      : ". A mix of accepting, rejecting, and rewriting.";
   }
-  el.textContent = `sent as machine wrote it: ${tally.accepted} \u00b7 sent your own: ${tally.rejected} \u00b7 sent your edit of its edit: ${tally.modified}${note}`;
+  el.textContent = `sent as machine wrote it: ${tally.accepted} · sent your own: ${tally.rejected} · sent your edit of its edit: ${tally.modified}${note}`;
 }
 function sendFinal(text, kind) {
   addBubble('me', text);
@@ -872,7 +876,7 @@ function sendFinal(text, kind) {
   setTimeout(() => replyFrom(text), 500 + Math.random() * 500);
 }
 function replyFrom(lastText) {
-  const replies = ["okay, that makes sense.", "oh \u2014 I wasn't expecting that, but thank you for saying it plainly.", "got it. appreciate you telling me directly.", "hm, can we talk about this more?"];
+  const replies = ["okay, that makes sense.", "oh, I wasn't expecting that, but thank you for saying it plainly.", "got it. appreciate you telling me directly.", "hm, can we talk about this more?"];
   addBubble('them', replies[Math.floor(Math.random() * replies.length)]);
 }
 if (thread) addBubble('them', 'hey, are we still on for saturday?');
@@ -917,7 +921,7 @@ function nodeCircle(x, y, r, fill, label) {
 function renderHumanLog() {
   const el = document.getElementById('humanLog');
   if (!el) return;
-  if (events.length === 0) { el.innerHTML = '<em>nothing yet.</em>'; return; }
+  if (events.length === 0) { el.innerHTML = '<em>Nothing yet.</em>'; return; }
   el.innerHTML = events.slice().reverse().map(e => `<div class="entry">${e.text}</div>`).join('');
 }
 function stableHash(n) { return Math.abs(Math.sin(n * 12.9898) * 43758.5453) % 1; }
@@ -926,7 +930,7 @@ function renderMetrics() {
   events.forEach(e => counts[e.kind]++);
   const total = events.length;
   const topics = Object.values(counts).filter(c => c > 0).length;
-  const similarity = total === 0 ? '\u2014' : Math.round(40 + stableHash(total) * 40) + '%';
+  const similarity = total === 0 ? '—' : Math.round(40 + stableHash(total) * 40) + '%';
   const engagement = Math.min(100, total * 12);
   const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
   set('mInteractions', total); set('mSimilarity', similarity); set('mTopics', topics);
@@ -935,7 +939,7 @@ function renderMetrics() {
 function renderReflectQuestion() {
   const el = document.getElementById('reflectQuestion');
   if (!el) return;
-  el.textContent = events.length === 0 ? '' : 'both views above describe the same events. which one would you rather have a platform show you \u2014 and which one would you rather it kept to itself?';
+  el.textContent = events.length === 0 ? '' : 'Both views above describe the same events. Which one would you rather a platform show you, and which one would you rather it kept to itself?';
 }
 function setView(which) {
   document.getElementById('btnFelt').classList.toggle('active', which === 'felt');
@@ -947,6 +951,6 @@ if (document.getElementById('svgStage')) render();
 
 /* ---------------- boot ---------------- */
 if (document.getElementById('btnOpt')) setSearchMode('optimized');
-setEra('1996');
+
 renderReceipt();
 updateTrace();
